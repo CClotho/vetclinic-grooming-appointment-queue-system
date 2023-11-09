@@ -1,0 +1,125 @@
+.label {
+  font-family: 'MarkoOne';
+  font-size: 1rem;
+  font-weight: regular;
+  margin: 0.5rem;
+}
+
+.loginBtn {
+    width: 100px;
+    height: 40px;
+    border-radius: 50px;
+    background-color: #92DB95;
+    font-family: 'MarkoOne';
+    font-weight: 700;
+    font-size: .90rem;
+    border: 1px solid white;
+
+    cursor: pointer;
+}
+
+.signUpBtn {
+    width: 150px;
+    height: 40px;
+    border-radius: 50px;
+    background-color: #92DB95;
+    font-family: 'Marko One', serif;
+    font-weight: 700;
+    font-size: .90rem;
+    border: 1px solid white;
+}
+.input {
+    width: 180px;
+    border: 2px solid #41982B;
+    background-color: #FFFFFF;
+    padding: 5px;
+    font-size: 1.2rem;
+    font-family: 'MarkoOne'
+}
+  
+.logoContainer {
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  flex-basis: 500px;
+  flex-shrink: 1;
+  height: 100%;
+  background-color: #0FA958;
+
+}
+
+.logoContainer::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 0;
+  bottom: 0;
+  width: 10px;
+  background: #FFDD55;
+}
+
+.frame {
+    background-color: #4ECB71;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 350px;
+    height: auto;
+}
+
+.logo {
+    border-radius: 50px;
+    max-width: 100%;
+    height: auto;
+}
+
+.formBackground {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    gap: 1rem;
+    background-color: #FCFBF3;
+
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+@media (max-width: 540px) {
+    .formBackground {
+      flex-direction: column;
+    }
+
+    .logo {
+        max-width: 300px;
+    }
+
+    .logoFrame {
+        max-width: 100%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .formBackground {
+      min-height: 100vh;
+    }
+  }
+
+  @media (max-width: 290px) {
+    .logoContainer {
+      display: none;
+    }
+  }
+  
+  @media (max-width: 414px) {
+    .logoContainer {
+      flex-basis: 300px;
+    }
+  }

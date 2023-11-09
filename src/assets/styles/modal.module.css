@@ -1,0 +1,35 @@
+.modalBackground {
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: flex;
+  }
+  
+  .modalContent {
+    position: relative;
+    padding: 2rem;
+    background-color: white;
+    width: 100%;
+    max-width: 24rem;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.375rem;
+  }
+  
+  .closeButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 1.5rem;
+    height: 1.5rem;
+  
+  }
+  
+  .title {
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+  }
+  

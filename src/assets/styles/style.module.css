@@ -1,0 +1,172 @@
+@font-face {
+    font-family: "MarkoOne";
+    src: url('./src/assets/fonts/MarkoOne-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: "Pixelify-Font";
+    src: url('../fonts/Pixelify/PixelifySans-VariableFont_wght.ttf') format('truetype');
+}
+h1 {
+    font-family: 'MarkoOne'
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: none;
+}
+
+body {
+  box-sizing: border-box;
+}
+.error {
+  color: red;
+}
+
+.container {
+  margin: auto;
+  margin-top: 2.5rem;
+}
+
+.styledLink {
+
+  display: flex;
+   
+    justify-content: start;
+    align-items: center;
+    gap: .5rem;
+    margin: .5rem;
+    padding: .5rem;
+    font-size: 1rem; 
+    text-decoration: none;
+    background-color: #FCFBF3;
+    
+    
+    color: black;
+  
+    &:focus {
+        text-decoration: underline;
+        color: #FFC700;
+    }
+
+    
+}
+.sidebar {
+  display: flex;
+  position: fixed;  
+  padding: 1rem;
+  flex-direction: column;
+  width: auto;
+  height: 100%;
+  background-color: #4ECB71;
+  transition: width 0.3s ease-in-out;
+  z-index: 100;
+
+}
+
+
+.navigation {
+  
+  display: flex;
+  font-family: "MarkoOne";
+  gap: 1rem;
+
+
+  
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+
+}
+
+.menu_icon {
+  /* Your menu icon styles */
+}
+
+.logout {
+  font-family: "MarkoOne";
+  padding: 0.5rem;
+  flex-basis: 100px;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+  margin-left: 0px;
+}
+
+
+
+@media screen and (min-width: 768px) {
+  .menu_icon {
+    display: none; /* Hide the menu icon on larger screens */
+  }
+
+  .sidebar {
+    display: flex;
+  }
+
+  .content {
+    margin-left: 250px; /* Show the sidebar on larger screens */
+  }
+  
+}
+
+@media screen and (max-width: 768px) {
+  
+  .styledLink {
+    
+    gap: 0.5rem;
+    padding: 0.75rem 1rem; /* Adjust padding as needed */
+    font-size: 1rem;
+    text-decoration: none;
+    background-color: #FCFBF3;
+    max-width: 250px; /* Set a maximum width for the links */
+    color: black;
+  }
+  .menu_icon {
+    position: fixed; /* Show the menu icon on smaller screens */
+    z-index: 120; 
+  }
+
+  .menu {
+    position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      
+  }
+
+  .sidebar {
+    display: none;
+  }
+  .sidebar.show {
+    position: fixed;
+    top: 0;
+    left: 0; /* Adjust the position to be at the left edge */
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    
+    background-color: #4ECB71;
+    transition: width 0.3s ease-in-out;
+    z-index: 100;
+    
+  }
+  
+
+
+
+  
+}
