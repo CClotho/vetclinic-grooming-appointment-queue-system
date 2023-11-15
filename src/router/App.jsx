@@ -8,6 +8,7 @@ import { GroomingService } from "../pages/GroomingService";
 import { ClientPage } from "../pages/admin/Clients";
 import { LoginPage } from "../pages/LoginPage";
 import { SignupPage } from "../pages/SignupPage";
+import PendingAppointmentsPage from "../pages/admin/PendingAppointments";
 
 
 export const router = createBrowserRouter([
@@ -15,7 +16,7 @@ export const router = createBrowserRouter([
       {
         path: Path.HOME,
         element: <ProtectedHome/>, // this is the app layout u can render the children with <outlet/>
-        errorElement: <Navigate to="/" replace={true} />,
+        errorElement: <div> 404 Not Found</div>, //<Navigate to="/" replace={true} />, will aply later to all of the components rather here
           children: [
             {
               path: "/dashboard",
@@ -55,6 +56,10 @@ export const router = createBrowserRouter([
             {
               path: "/register",
               element: <SignupPage/>, // This should be just a form inside Clients page in admin
+            }, 
+            {
+              path: "/pending/appointments",
+              element: <PendingAppointmentsPage/>
             }
         
           ],

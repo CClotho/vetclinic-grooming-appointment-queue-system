@@ -1,11 +1,10 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
+import * as api from '../../api/clientApi/appointment';
 
-import * as api from '../../api/adminApi/appointment';
-
-export const useCreateAppointment = () => {
+export const useRequestAppointment = () => {
     const queryClient = useQueryClient();
     return useMutation({
-    mutationFn: api.createAppointment,
+    mutationFn: api.requestAppointment,
     onSuccess: (data) => {
       console.log("Appointment created successfully:", data);
       // Invalidate and refetch any related queries if needed

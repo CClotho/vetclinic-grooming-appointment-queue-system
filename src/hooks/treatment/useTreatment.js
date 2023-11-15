@@ -1,12 +1,13 @@
 import { useMutation, useQuery ,useQueryClient} from '@tanstack/react-query';
 
-import * as api from '../../api/adminApi/treatment';
+import * as api from '../../api/sharedApi/treatment';
+import * as adminApi from '../../api/adminApi/treatment';
 
 
 export const useCreateTreatment = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: api.createTreatment,
+    mutationFn: adminApi.createTreatment,
     onSuccess: (data) => {
       console.log("Treatment created successfully:", data);
       queryClient.invalidateQueries('treatments'); // updates real time lol.
@@ -26,13 +27,13 @@ export const useCreateTreatment = () => {
 };
 
 export const useFetchTreatments = () => {
-  return useQuery({queryKey:['treatments'], queryFn:api.fetchTreatments});
+  return useQuery({queryKey:['treatments'], queryFn:api.fetchTreatments, retry: 1,});
 };
 
 export const useEditTreatment = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn:api.editTreatment,
+    mutationFn: adminApi.editTreatment,
     onSuccess: (data) => {
       console.log("Treatment edited successfully:", data);
       // Invalidate and refetch any related queries if needed

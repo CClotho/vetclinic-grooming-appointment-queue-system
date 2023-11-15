@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.headers.post['Content-Type'] = 'multipart/form-data'; //changed this to multipart b4 was application/json due to uploading photo
 axios.defaults.withCredentials = true;
 // POST create pet
 
 export const createPet = async (data) => {
-  const response = await axios.post('/api/pet/create', data);
+  const response = await axios.post('http://localhost:3000/admin/pet/create', data);
   return response.data;
 };
 

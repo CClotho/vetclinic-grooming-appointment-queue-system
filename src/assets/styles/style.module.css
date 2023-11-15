@@ -1,6 +1,6 @@
 @font-face {
     font-family: "MarkoOne";
-    src: url('./src/assets/fonts/MarkoOne-Regular.ttf') format('truetype');
+    src: url('/src/assets/fonts/MarkoOne-Regular.ttf') format('truetype');
 }
 
 @font-face {
@@ -169,4 +169,17 @@ body {
 
 
   
+}
+
+.appointments {
+  display: flex;
+  align-items: baseline;
+  justify-content:  center;
+  flex-direction: row;
+  
+}
+
+.appointments > div {
+  
+  flex-grow: 1;
 }

@@ -36,7 +36,7 @@ export const AuthContextProvider = ({ children }) => {
         };
 
         checkAuthStatus();
-    }, []);  // The empty dependency array ensures this useEffect runs once when the component mounts
+    }, [isAuthenticated]);  // The empty dependency array ensures this useEffect runs once when the component mounts
 
     const contextValue = {
         user,

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { profile } from '../../hooks/users/useProfile';
 import { useAuth } from '../../hooks/AuthContext';
+import ClientAppointmentForm from '../../component/Appointment/ClientAppointmentForm';
 
 export const ClientDashboard= () => {
  
@@ -36,12 +37,8 @@ export const ClientDashboard= () => {
     return (
         <div>
             <h1> CLIENT DASHBOARD {profileDetails.first_name} </h1>
-            {profileDetails && (
-                <>
-                    <h1>Hello, {profileDetails.first_name} {profileDetails.last_name}!</h1>
-                    <p>Email: {profileDetails.email}</p>
-                </>
-            )}
+           
+            <ClientAppointmentForm/>
 
         </div>
     ); 

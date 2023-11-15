@@ -1,14 +1,14 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { queryClient } from 'path-to-your-query-client'; // You should import your queryClient instance
-import * as api from './api/pet';
+import { useMutation, useQuery , useQueryClient } from '@tanstack/react-query'; // You should import your queryClient instance
+import * as api from '../../api/adminApi/pet';
 
 export const useCreatePet = () => {
+   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: api.createPet,
     onSuccess: (data) => {
       console.log("Pet created successfully:", data);
       // Invalidate and refetch any related queries if needed
-      // queryClient.invalidateQueries('someQueryKey');
+       queryClient.invalidateQueries('someQueryKey');
     },
     onError: (error) => {
       console.error("Error creating pet:", error);
@@ -22,11 +22,12 @@ export const useFetchPet = (id) => {
 
 export const useEditPet = () => {
   return useMutation({
+    
     mutationFn: api.editPet,
     onSuccess: (data) => {
       console.log("Pet edited successfully:", data);
       // Invalidate and refetch any related queries if needed
-      // queryClient.invalidateQueries(['pet', data.id]);
+      //queryClient.invalidateQueries(['pet', data.id]);
     },
     onError: (error) => {
       console.error("Error editing pet:", error);

@@ -8,11 +8,6 @@ export const createTreatment = async (data) => {
   return response.data;
 };
 
-export const fetchTreatments = async () => {
-  const response = await axios.get('http://localhost:3000/admin/service/treatments')
-  
-  return response.data
-};
 
 export const editTreatment = async ( updatedData) => {
   const response = await axios.put(`http://localhost:3000/admin/service/edit/treatment`, updatedData);
