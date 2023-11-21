@@ -5,7 +5,7 @@ import styles from '../../assets/styles/style.module.css';
 import { useState } from "react";
 
 
-export const Homepage = () => {
+export const AdminSidebar = () => {
     const { user, isAuthenticated } = useAuth();
     console.log("USER ROLE: ", user.role)
     console.log("IS USER AUTHENTICATED?:", isAuthenticated)
@@ -31,9 +31,8 @@ export const Homepage = () => {
                         {/* Sidebar container */}
                     <nav className={`${styles.sidebar} ${show ? styles.show : ''}`}>
                         <img src="/src/assets/logo/Logo2.png" alt="logo"/>
-                        <NavLink to="/dashboard" className={styles.styledLink} ><img src="/src/assets/icons/dashboard.png" alt="dashboard-icon"/><span> Dashboard</span></NavLink>
+                        <NavLink to="/" className={styles.styledLink} ><img src="/src/assets/icons/dashboard.png" alt="dashboard-icon"/><span> Dashboard</span></NavLink>
                         <NavLink to="/appointment" className={styles.styledLink}> <img src="/src/assets/icons/schedule.png" alt="appointment-icon"/><span>Appointments</span></NavLink>
-                        <NavLink to={`/profile/${user.user}`}  className={styles.styledLink}> <img src="/src/assets/icons/profile.png" alt="profile-icon"/><span>Profile</span></NavLink>
                         <NavLink to="/service/treatment" className={styles.styledLink}><img src="/src/assets/icons/services.png" alt="service-icon"/> <span>Treatment</span></NavLink>
                         <NavLink to="/service/grooming" className={styles.styledLink}> <img src="/src/assets/icons/grooming.png" alt="grooming-icon"/> <span>Grooming</span></NavLink>
                         <NavLink to="/clients" className={styles.styledLink}> <img src="/src/assets/icons/people.png" alt="clients-icon"/><span>Clients</span></NavLink>

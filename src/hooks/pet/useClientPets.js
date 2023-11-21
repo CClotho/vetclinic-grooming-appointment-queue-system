@@ -10,6 +10,7 @@ export const useFetchClientPet= () => {
     return useQuery({
         queryKey: ['clientInformation'],
         queryFn: api.fetchClientPet,
+        retry: 2,
         onSuccess: () => {
             console.log("Fetched pets");
         },

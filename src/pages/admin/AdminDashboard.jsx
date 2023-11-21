@@ -2,12 +2,12 @@
 import { Link, Outlet } from 'react-router-dom';
 import AppointmentForm from "../../component/Appointment/AdminAppointmentForm";
 import { useEffect, useState } from 'react';
-//import io from 'socket.io-client';
+import io from 'socket.io-client';
 import { useQueryClient } from '@tanstack/react-query';
 import { useFetchPendingAppointments, useFetchAppointmentsQueueToday } from '../../hooks/appointment/useAdminAppointment';
 import axios from 'axios';
-import styles from '../../assets/styles/style.module.css';
 import AddPetForm from '../../component/Pet/AddPetForm';
+import styles from '../../assets/styles/dashboard.module.css'; // Import CSS module
 
 //const socket = io("http://localhost:3000");
 
@@ -17,9 +17,8 @@ export const AdminDashboard = () => {
     const { data: appointments, isLoadingAppointments } = useFetchAppointmentsQueueToday();
     const [groomingSearchTerm, setGroomingSearchTerm] = useState('');
     const [treatmentSearchTerm, setTreatmentSearchTerm] = useState('');
-/* 
-    
-    useEffect(() => {
+ 
+  /*   useEffect(() => {
         socket.on('newPendingAppointment', (appointment) => {
             queryClient.setQueryData(['pendingAppointments'], old => [...old, appointment]);
         });
@@ -27,7 +26,7 @@ export const AdminDashboard = () => {
         return () => {
             socket.off('newPendingAppointment');
         };
-    }, [queryClient]); */
+    }, [queryClient]);  */
 
     // Function to handle updates to appointments
     const handleUpdate = async (appointmentId, updates) => {
@@ -61,14 +60,17 @@ export const AdminDashboard = () => {
         
             return appointments.filter(appointment => {
                 const searchTermLower = searchTerm.toLowerCase();
-                const clientName = `${appointment.client.first_name} ${appointment.client.last_name}`.toLowerCase();
+                const clientName = `${appointment.client?.first_name} ${appointment.client?.last_name}`.toLowerCase();
+                const petName = `${appointment.pet?.pet_name}`.toLowerCase();
+                const matchesPetName = petName.includes(searchTermLower);
+
                 const matchesClientName = clientName.includes(searchTermLower);
         
-                const matchesServiceName = appointment.services.some(service => 
-                    service.serviceId?.name.toLowerCase().includes(searchTermLower)
+                const matchesServiceName = appointment.services?.some(service => 
+                    service.serviceId?.name?.toLowerCase().includes(searchTermLower)
                 );
         
-                return matchesClientName || matchesServiceName;
+                return matchesClientName || matchesServiceName ||   matchesPetName ;
             });
         };
         
@@ -81,73 +83,242 @@ export const AdminDashboard = () => {
         
         const filteredGroomingAppointments = filterAppointments(grooming, groomingSearchTerm, 'grooming');
         const filteredTreatmentAppointments = filterAppointments(treatment, treatmentSearchTerm, 'treatment');
+              // Log the appointments data to see what's actually being fetched
+        console.log('Appointments Data:', appointments);
 
+        // Your existing filter logic...
+        // ...
+
+        // Log the filtered appointments to see what's being rendered
+        console.log('Filtered Grooming Appointments:', filteredGroomingAppointments);
+        console.log('Filtered Treatment Appointments:', filteredTreatmentAppointments);
     
         return (
             <div className={styles.appointments}>
                 
                 
                <div>
-               <div>
-                    <input
-                        type="text"
-                        placeholder="Search Grooming Appointments..."
-                        onChange={(e) => setGroomingSearchTerm(e.target.value)}
-                    />
-                </div>
+                    <div className={styles.searchBarContainer}>
+                        <input
+                            className={styles.searchInput}
+                            type="text"
+                            placeholder="Search Grooming Appointments..."
+                            onChange={(e) => setGroomingSearchTerm(e.target.value)}
+                        />
+                        <span className={styles.searchIcon}>
+                        <img src="/src/assets/icons/search.png" alt="Search"/>
+                        </span>
+                    </div>
+
+        
     
                 <h2>Grooming Appointments</h2>
-                { filteredGroomingAppointments .length > 0 ? (
-                     filteredGroomingAppointments.map(appointment => (
-                        <div key={appointment._id}>
-                            <p>Client: {appointment.client?.first_name} {appointment.client?.last_name}</p>
-                            <p>Pet: {appointment.pet.pet_name}</p>
-                            <p>Date: {new Date(appointment.date).toLocaleDateString()}</p>
-                            <p>Doctor: {appointment.doctor.first_name}</p>
-                            <p>Service Type: {appointment.service_type}</p>
-                            {appointment.services.map(service => (
-                                <div key={service._id}>
-                                    <p>Service Name: {service.serviceId?.name || 'N/A'}</p>
-                                    <p>Size: {service.chosenSize?.size || 'N/A'}</p>
+                {
+                filteredGroomingAppointments.length > 0 ? (
+                    filteredGroomingAppointments.map((appointment, index) => (
+                    <div key={appointment._id} className={styles.appointmentCard}>
+                        
+                        <div className={styles.appointmentHeader}>
+                        <h3>Appointment Details</h3>
+                        </div>
+                        
+                        <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>Client:</span>
+                        <span className={styles.detailValue}>{appointment.client?.first_name} {appointment.client?.last_name}</span>
+                        </div>
+                        
+                        <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>Pet:</span>
+                        <span className={styles.detailValue}>{appointment.pet?.pet_name}</span>
+                        </div>
+                        
+                        <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>Date:</span>
+                        <span className={styles.detailValue}>{new Date(appointment.date).toLocaleDateString()}</span>
+                        </div>
+                        
+                        <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>Doctor:</span>
+                        <span className={styles.detailValue}>{appointment.doctor?.first_name}</span>
+                        </div>
+                        
+                        <div className={styles.serviceType}>
+                        <span className={styles.detailLabel}>Service Type:</span>
+                        <span className={styles.detailValue}>{appointment.service_type}</span>
+                        </div>
+                        
+                        <div className={styles.statusInfo}>
+                        <span className={styles.detailLabel}>Status:</span>
+                        <input 
+                            className={styles.statusInput}
+                            type="text" 
+                            value={appointment.status} 
+                            onChange={(e) => handleStatusChange(index, e.target.value)}
+                        />
+                        </div>
+                        
+                        <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>Queue Position:</span>
+                        <input 
+                            className={styles.statusInput}
+                            type="number" 
+                            value={appointment.queuePosition} 
+                            onChange={(e) => handleQueuePositionChange(index, e.target.value)}
+                        />
+                        </div>
+                        
+                        <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>Arrival Time:</span>
+                        <input 
+                            className={styles.statusInput}
+                            type="time" 
+                            value={new Date(appointment.arrivalTime).toLocaleTimeString().substring(0,5)} 
+                            onChange={(e) => handleArrivalTimeChange(index, e.target.value)}
+                        />
+                        </div>
+                        
+                        <div className={styles.detailRow}>
+                        <span className={styles.detailLabel}>Duration (mins):</span>
+                        <input 
+                            className={styles.statusInput}
+                            type="number" 
+                            value={appointment.duration} 
+                            onChange={(e) => handleDurationChange(index, e.target.value)}
+                        />
+                        </div>
+                        
+                        <div className={styles.servicesList}>
+                            <h4 className={styles.detailLabel}>Services:</h4>
+                            {appointment.services?.map(service => (
+                                <div className={styles.serviceItem} key={service._id}>
+                                <div>{service.serviceId?.name} - {service.chosenSize?.size}</div>
                                 </div>
                             ))}
-                            {/* Add more fields as needed */}
-                            <button onClick={() => handleUpdate(appointment._id)}>Update</button>
-                            <button onClick={() => handleUpdate(appointment._id)}>Delete</button>
                         </div>
+                        
+                        <div className={styles.appointmentActions}>
+                        <button onClick={() => handleUpdate(appointment._id)} className={styles.updateButton}>Update</button>
+                        <button onClick={() => handleDelete(appointment._id)} className={styles.deleteButton}>Delete</button>
+                        </div>
+                        
+                    </div>
                     ))
                 ) : (
-                    <p>There are currently no grooming appointments.</p>
-                )}
+                    <p className={styles.noAppointments}>There are currently no grooming appointments.</p>
+                )
+                }
+
                </div>
 
-               <div>    
-                    <div>
+               <div>                
+                    <div className={styles.searchBarContainer}>
                         <input
+                            className={styles.searchInput}
                             type="text"
                             placeholder="Search Treatment Appointments..."
                             onChange={(e) => setTreatmentSearchTerm(e.target.value)}
                             />
+                            <span className={styles.searchIcon}>
+                        <img src="/src/assets/icons/search.png" alt="Search"/>
+                        </span>
                     </div>
     
                     <h2>Treatment Appointments</h2>
-                    { filteredTreatmentAppointments.length > 0 ? (
-                        filteredTreatmentAppointments.map(appointment => (
-                            <div key={appointment._id}>
-                                <p>Client: {appointment.client.first_name} {appointment.client.last_name}</p>
-                                <p>Pet: {appointment.pet.pet_name}</p>
-                                <p>Date: {new Date(appointment.date).toLocaleDateString()}</p>
-                                <p>Doctor: {appointment.doctor.first_name}</p>
-                                <p>Appointment: {appointment.service_type}</p>
-                                {/* Additional treatment service details can be added here */}
-                                <button onClick={() => handleDelete(appointment._id)}>Update</button>
-                                <button onClick={() => handleDelete(appointment._id)}>Delete</button>
-
+                    {
+                    filteredTreatmentAppointments.length > 0 ? (
+                        filteredTreatmentAppointments.map((appointment, index) => (
+                        <div key={appointment._id} className={styles.appointmentCard}>
+                            
+                            <div className={styles.appointmentHeader}>
+                            <h3>Appointment Details</h3>
                             </div>
+                            
+                            <div className={styles.detailRow}>
+                            <span className={styles.detailLabel}>Client:</span>
+                            <span className={styles.detailValue}>{appointment.client?.first_name} {appointment.client?.last_name}</span>
+                            </div>
+                            
+                            <div className={styles.detailRow}>
+                            <span className={styles.detailLabel}>Pet:</span>
+                            <span className={styles.detailValue}>{appointment.pet?.pet_name}</span>
+                            </div>
+                            
+                            <div className={styles.detailRow}>
+                            <span className={styles.detailLabel}>Date:</span>
+                            <span className={styles.detailValue}>{new Date(appointment.date).toLocaleDateString()}</span>
+                            </div>
+                            
+                            <div className={styles.detailRow}>
+                            <span className={styles.detailLabel}>Doctor:</span>
+                            <span className={styles.detailValue}>{appointment.doctor?.first_name}</span>
+                            </div>
+                            
+                            <div className={styles.serviceType}>
+                            <span className={styles.detailLabel}>Service Type:</span>
+                            <span className={styles.detailValue}>{appointment.service_type}</span>
+                            </div>
+                            
+                            <div className={styles.statusInfo}>
+                            <span className={styles.detailLabel}>Status:</span>
+                            <input 
+                                className={styles.statusInput}
+                                type="text" 
+                                value={appointment.status} 
+                                onChange={(e) => handleStatusChange(index, e.target.value)}
+                            />
+                            </div>
+                            
+                            <div className={styles.detailRow}>
+                            <span className={styles.detailLabel}>Queue Position:</span>
+                            <input 
+                                className={styles.statusInput}
+                                type="number" 
+                                value={appointment.queuePosition} 
+                                onChange={(e) => handleQueuePositionChange(index, e.target.value)}
+                            />
+                            </div>
+                            
+                            <div className={styles.detailRow}>
+                            <span className={styles.detailLabel}>Arrival Time:</span>
+                            <input 
+                                className={styles.statusInput}
+                                type="time" 
+                                value={new Date(appointment?.arrivalTime).toLocaleTimeString().substring(0,5)} 
+                                onChange={(e) => handleArrivalTimeChange(index, e.target.value)}
+                            />
+                            </div>
+                            
+                            <div className={styles.detailRow}>
+                            <span className={styles.detailLabel}>Duration (mins):</span>
+                            <input 
+                                className={styles.statusInput}
+                                type="number" 
+                                value={appointment.duration} 
+                                onChange={(e) => handleDurationChange(index, e.target.value)}
+                            />
+                            </div>
+                            
+                            <div className={styles.servicesList}>
+                            <h4 className={styles.detailLabel}>Services:</h4>
+                            {appointment.services.map(service => (
+                                <div className={styles.serviceItem} key={service._id}>
+                                {service.serviceId?.name} 
+                                </div>
+                            ))}
+                            </div>
+                            
+                            <div className={styles.appointmentActions}>
+                            <button onClick={() => handleUpdate(appointment._id)} className={styles.updateButton}>Update</button>
+                            <button onClick={() => handleDelete(appointment._id)} className={styles.deleteButton}>Delete</button>
+                            </div>
+                            
+                        </div>
                         ))
                     ) : (
-                        <p>There are currently no treatment appointments.</p>
-                    )}
+                        <p className={styles.noAppointments}>There are currently no treatment appointments.</p>
+                    )
+                    }
+
                 
                </div>
 

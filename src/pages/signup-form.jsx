@@ -42,6 +42,7 @@ const SignupForm = () => {
         validationSchema,
         onSubmit: async (values) => {
             try {
+                console.log(values)
                 const response = await signup(values);
 
                 console.log('Full response:', response);
@@ -49,7 +50,6 @@ const SignupForm = () => {
                 if (response.status === 200) {
                     console.log(response.data);
                 }
-               
             
             } catch (error) {
                 if (error.response && error.response.status === 422 && error.response.data.errors) {
@@ -88,7 +88,7 @@ const SignupForm = () => {
     return (
        <>
         
-        {user.role === "doctor" && isAuthenticated && (<form onSubmit={formik.handleSubmit} className={styles.form}>
+       <form onSubmit={formik.handleSubmit} className={styles.form}>
             <div>
                 <label className={styles.label}>First Name:</label>
                 <input className={styles.input} name="first_name" {...formik.getFieldProps('first_name')} />
@@ -151,7 +151,7 @@ const SignupForm = () => {
             </div>
 
             <button className={styles.signUpBtn}type="submit">Sign Up</button>
-        </form>) }
+        </form>
        </>
     );
 }

@@ -1,25 +1,31 @@
-import TreatmentList from "../../component/Treatment/TreatmentList"
+import TreatmentList from "../../component/Treatment/AdminTreatment";
 import TreatmentForm from "../../component/Treatment/AddTreatmentForm";
 import Modal from "../../component/Modal";
 import { useState } from "react";
 import styles from '../../assets/styles/style.module.css';
-export const AdminTreatment = () => {
 
+export const AdminTreatment = () => {
     const [isTreatmentModalOpen, setTreatmentModalOpen] = useState(false);
+    const [showEdit, setShowEdit] = useState(false); // State to toggle edit buttons
 
     return (
         <>
-          <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4" onClick={() => setTreatmentModalOpen(true)}>
+            <button className={`${styles.openFormButton}`} onClick={() => setTreatmentModalOpen(true)}>
                 Open Treatment Form
             </button>
+            
+            <button className={`${styles.toggleEditButton}`} onClick={() => setShowEdit(!showEdit)}>
+                {showEdit ? 'Hide' : 'Show'} Edit Buttons
+            </button>
+
             <Modal isOpen={isTreatmentModalOpen} onClose={() => setTreatmentModalOpen(false)} title="Treatment Service">
                 <TreatmentForm />
             </Modal>
 
-
-            {/*Search filter  */}
-            <TreatmentList/>
-            
+            {/* Pass showEdit to TreatmentList to control the display of edit buttons */}
+            <TreatmentList showEdit={showEdit} />
         </>
-    )
-}
+    );
+};
+
+export default AdminTreatment;

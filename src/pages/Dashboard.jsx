@@ -1,5 +1,6 @@
 import { useAuth } from "../hooks/AuthContext"
 import {AdminDashboard} from "./admin/AdminDashboard"
+import { AdminTestDashboard } from "./admin/AdminTestDashboard"
 import { ClientDashboard } from "./client/ClientDashboard"
 import { Navigate } from "react-router-dom"
 
@@ -17,7 +18,7 @@ export const Dashboard = () => {
 
     if(user.role ==="doctor" && isAuthenticated) {
         
-        return <AdminDashboard/> 
+        return  <AdminTestDashboard/>//<AdminDashboard/> 
     } 
 
    if(user.role === "undefined" && !isAuthenticated) {

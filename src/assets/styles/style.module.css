@@ -23,8 +23,13 @@ input[type="number"] {
   -moz-appearance: none;
 }
 
+
+
 body {
+  
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 .error {
   color: red;
@@ -171,15 +176,163 @@ body {
   
 }
 
-.appointments {
+
+
+
+/* Admin Client Page */
+
+.adminClientsContainer {
+  height: 100vh;
   display: flex;
-  align-items: baseline;
-  justify-content:  center;
-  flex-direction: row;
+  background-color: #FCFBF3;
+  color: #000;
+}
+
+.clientList {
+  flex: 1;
+  position: relative;
+  padding: 20px;
+  background-color: Ivory;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.clientProfileContainer {
+  flex: 4;
+  padding: 20px;
+  background-color: #FFFFFF;
+}
+
+.clientLink {
+
+  padding: 10px 0;
+  border-bottom: 2px solid #4ECB71;
+}
+
+.clientLink a {
+  color: #000;
+  text-decoration: none;
+  &:focus {
+    text-decoration: underline;
+    color: #4ECB71;
+}
+}
+
+.addClientLink {
+  display: block;
+
+  background-color:  #4ECB71;
+  color: #FFFFFF;
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  text-decoration: none;
+  position: absolute;
+  bottom: 20px; /* Position from bottom */
+  left: 20px; /* Align from left */
+  right: 20px; /* Align from right */
   
 }
 
-.appointments > div {
-  
-  flex-grow: 1;
+
+/* Client Profile*/
+
+
+.clientProfile {
+  background-color: #FFFFFF;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+.clientProfile h2, .clientProfile h3 {
+  color: #4ECB71;
+  margin-bottom: 20px;
+}
+
+.clientProfile p {
+  margin: 10px 0;
+  line-height: 1.6;
+}
+
+.petDetails {
+  background-color: #F0F0F0;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.loading, .error, .notFound {
+  color: #FF0000;
+  font-weight: bold;
+}
+.clientPets {
+  display: flex;
+  flex-direction: column; /* Align children vertically */
+  align-items: flex-start; /* Align children to the start of the flex container */
+}
+
+.petList {
+  list-style-type: none; /* Removes default list styling */
+  padding: 0;
+  margin: 0;
+  width: 100%; /* Ensure the list takes full width of the container */
+}
+
+.petLink {
+  cursor: pointer;
+  padding: 10px 15px;
+  background-color: #f8f8f8;
+  border: 1px solid #dcdcdc;
+  color: #333;
+  text-align: left;
+  max-width: 100%;
+  margin-bottom: 5px; /* Adds space between list items */
+  display: block; /* Ensures it's a block-level element */
+}
+
+.petLink:hover {
+  background-color: #e0e0e0;
+}
+
+.petLink.active {
+  background-color: #4ECB71;
+  color: white;
+}
+
+
+/* Admin Treatment Page design for 2 buttons */
+
+
+.openFormButton {
+  background-color: #5cb85c; /* A green shade for the 'open' action */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin: 1rem; /* Add some space between this button and the next one */
+  transition: background-color 0.3s ease;
+}
+
+.openFormButton:hover,
+.openFormButton:focus {
+  background-color: #4cae4c; /* A darker green on hover/focus for better interaction */
+}
+
+.toggleEditButton {
+  background-color: #f0ad4e; /* An orange shade to signify a changeable state */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.toggleEditButton:hover,
+.toggleEditButton:focus {
+  background-color: #ec971f; /* A darker orange on hover/focus */
 }

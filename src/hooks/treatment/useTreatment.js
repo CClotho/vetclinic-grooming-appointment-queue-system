@@ -8,6 +8,7 @@ export const useCreateTreatment = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: adminApi.createTreatment,
+    retry: 2,
     onSuccess: (data) => {
       console.log("Treatment created successfully:", data);
       queryClient.invalidateQueries('treatments'); // updates real time lol.
@@ -34,6 +35,7 @@ export const useEditTreatment = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: adminApi.editTreatment,
+    retry:2,
     onSuccess: (data) => {
       console.log("Treatment edited successfully:", data);
       // Invalidate and refetch any related queries if needed

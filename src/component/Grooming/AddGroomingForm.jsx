@@ -1,70 +1,62 @@
 import { useFormik } from 'formik';
+import { useCreateGrooming } from '../../hooks/grooming/useAdminGrooming';
 import * as Yup from 'yup';
+import styles from '../../assets/styles/modal.module.css'; // Assuming you have CSS module
 
-const serviceValidationSchema = Yup.object({
+ const groomingValidationSchema = Yup.object({
     name: Yup.string().required('Name is required'),
+    price: Yup.number().positive('Price must be positive').required('Price is required'),
     description: Yup.string(),
-    availability: Yup.string().oneOf(['available', 'unavailable']).required('Availability is required'),
-    sizes: Yup.array().of(
-        Yup.object({
-            size: Yup.string().oneOf(['small', 'medium', 'large', 'extra-large', 'none']).required('Size is required'),
-            price: Yup.number().positive('Price must be positive').required('Price is required'),
-            details: Yup.string()
-        })
-    ).required('At least one size detail is required')
+    availability: Yup.boolean()
 });
 
 const GroomingForm = () => {
+    const createGroomingMutation = useCreateGrooming();
     const formik = useFormik({
         initialValues: {
             name: '',
+            price: '',
             description: '',
-            availability: 'available',
-            sizes: []
+            availability: true,
         },
-        validationSchema: serviceValidationSchema,
+        validationSchema: groomingValidationSchema,
         onSubmit: values => {
-            console.log(values);
-           
+            createGroomingMutation.mutate(values); // Use the mutation to create the treatment
         },
     });
 
+
+
     return (
-        <form onSubmit={formik.handleSubmit(e)}>
+        <form onSubmit={formik.handleSubmit} className={styles.form}>
             <div>
-                <label>Name:</label>
-                <input type="text" name="name" {...formik.getFieldProps('name')} />
-                {formik.touched.name && formik.errors.name ? <div>{formik.errors.name}</div> : null}
+                <label htmlFor="name">Name:</label>
+                <input type="text" id="name" name="name" {...formik.getFieldProps('name')} className={styles.textInput} />
+                {formik.touched.name && formik.errors.name ? <div className={styles.error}>{formik.errors.name}</div> : null}
+            </div>
+            <div >
+                <label htmlFor="price">Price:</label>
+                <input type="number" id="price" name="price" {...formik.getFieldProps('price')} className={styles.numberInput} />
+                {formik.touched.price && formik.errors.price ? <div className={styles.error}>{formik.errors.price}</div> : null}
+            </div>
+            <div >
+                <label htmlFor="description">Description:</label>
+                <textarea id="description" name="description" {...formik.getFieldProps('description')} className={styles.textArea}></textarea>
             </div>
             <div>
-                <label>Description:</label>
-                <textarea name="description" {...formik.getFieldProps('description')}></textarea>
+                <label htmlFor="availability">
+                    <input
+                        type="checkbox"
+                        id="availability"
+                        name="availability"
+                        checked={formik.values.availability}
+                        onChange={formik.handleChange}
+                        className={styles.checkboxInput}
+                    />
+                    Availability
+                </label>
             </div>
-            <div>
-                <label>Availability:</label>
-                <select name="availability" {...formik.getFieldProps('availability')}>
-                    <option value="available">Available</option>
-                    <option value="unavailable">Unavailable</option>
-                </select>
-                {formik.touched.availability && formik.errors.availability ? <div>{formik.errors.availability}</div> : null}
-            </div>
-            <div>
-                <label>Sizes:</label>
-                {formik.values.sizes.map((size, index) => (
-                    <div key={index}>
-                        <select name={`sizes[${index}].size`} {...formik.getFieldProps(`sizes[${index}].size`)}>
-                            <option value="small">Small</option>
-                            <option value="medium">Medium</option>
-                            <option value="large">Large</option>
-                            <option value="extra-large">Extra Large</option>
-                        </select>
-                        <input type="number" name={`sizes[${index}].price`} placeholder="Price" {...formik.getFieldProps(`sizes[${index}].price`)} />
-                        <textarea name={`sizes[${index}].details`} placeholder="Details" {...formik.getFieldProps(`sizes[${index}].details`)}></textarea>
-                    </div>
-                ))}
-                <button type="button" onClick={() => formik.setFieldValue('sizes', [...formik.values.sizes, { size: '', price: '', details: '' }])}>Add Size</button>
-            </div>
-            <button type="submit">Submit</button>
+            <button type="submit" className={styles.submitButton}>Submit</button>
         </form>
     );
 };

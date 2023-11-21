@@ -5,6 +5,7 @@ export const useCreatePet = () => {
    const queryClient = useQueryClient();
   return useMutation({
     mutationFn: api.createPet,
+    retry: 2,
     onSuccess: (data) => {
       console.log("Pet created successfully:", data);
       // Invalidate and refetch any related queries if needed
@@ -24,6 +25,7 @@ export const useEditPet = () => {
   return useMutation({
     
     mutationFn: api.editPet,
+    retry:2,
     onSuccess: (data) => {
       console.log("Pet edited successfully:", data);
       // Invalidate and refetch any related queries if needed
@@ -38,6 +40,7 @@ export const useEditPet = () => {
 export const useDeletePet = () => {
   return useMutation({
     mutationFn: api.deletePet,
+    retry: 2,
     onSuccess: (data) => {
       console.log("Pet deleted successfully:", data);
       // Invalidate and refetch any related queries if needed

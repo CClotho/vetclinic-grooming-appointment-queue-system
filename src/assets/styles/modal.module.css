@@ -5,6 +5,8 @@
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.85);
     display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   .modalContent {
@@ -12,11 +14,12 @@
     padding: 2rem;
     background-color: white;
     width: 100%;
-    max-width: 24rem;
+    max-width: 500px; /* Adjusted for better control */
     margin: auto;
     display: flex;
     flex-direction: column;
     border-radius: 0.375rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
   .closeButton {
@@ -25,11 +28,219 @@
     right: 1rem;
     width: 1.5rem;
     height: 1.5rem;
-  
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    font-size: 1.5rem; /* Adjusted for better visibility */
+    padding: 0.25rem; /* Added padding */
   }
   
   .title {
     margin-bottom: 1rem;
     font-size: 1.25rem;
+    text-align: center;
   }
   
+
+  .errorMessage {
+    color: red;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    text-align: left;
+  }
+  
+  /* style.module.css */
+
+.textInput {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+}
+
+.numberInput {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+}
+
+.textArea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  resize: none;
+}
+
+.checkboxInput {
+  margin-right: 0.5rem;
+}
+
+.formLabel {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.submitButton {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 1rem;
+  width: auto;
+  align-self: flex-end;
+}
+
+.submitButton:hover {
+  background-color: #0056b3;
+}
+
+
+.editContainer {
+    width: 400px;
+    max-width: 300px;
+}
+
+
+/* Edit button for Treatment List and Edit Treatment COmponent*/
+
+.editStyleBtn {
+    width: 80px;
+    height: 40px;
+    border-radius: 50px;
+    background-color: #92DB95;
+    font-family: 'MarkoOne';
+    font-weight: 700;
+    font-size: .90rem;
+    border: 1px solid white;
+
+    cursor: pointer;
+    
+}
+
+.updateTreatmentBtn {
+    margin-top: 1rem;
+    width: 160px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: #92DB95;
+    font-family: 'MarkoOne';
+    font-weight: 700;
+    font-size: .90rem;
+    border: 1px solid white;
+
+    cursor: pointer;
+}
+
+
+/* Design for Treatment List and Grooming List */
+
+
+/* Design for input search */
+.searchInput {
+  max-width: 100%; /* full width */
+  padding: 10px 15px;
+  margin-bottom: 20px; /* space below the search bar */
+  border: 1px solid #eaeaea; /* subtle border */
+  border-radius: 4px; /* rounded corners */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* inner shadow for depth */
+  transition: border-color 0.3s ease-in-out; /* smooth transition for focus */
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #4CAF50; /* highlight border on focus */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* deeper inner shadow for focus */
+}
+
+.treatmentContainer {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  list-style-position: inside; /* Moves the numbers inside the content area */
+  padding-left: 0;
+  flex-wrap: wrap;
+  display: flex;
+  gap: 1rem;
+}
+.treatmentsGrid {
+  
+  background-color: #ffffff; /* white background */
+  border-radius: 8px; /* rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* subtle shadow */
+  padding: 20px; /* spacing inside */
+  margin-top: 20px; /* space from top */
+}
+
+/* Style for each Treatment item */
+.treatmentItem {
+  flex-basis: 300px;
+  padding: 15px;
+  margin-bottom: 10px; /* space between items */
+  border-bottom: 5px solid #eaeaea; /* light line between items */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* subtle shadow for depth */
+  transition: box-shadow 0.3s ease-in-out;
+  padding-left: 20px
+}
+
+.treatmentItem:hover {
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* more pronounced shadow on hover */
+  transform: scale(1.05);
+}
+
+.treatmentAvail {
+  color: #f0ad4e;/* Example color */
+}
+
+.treatmentNotAvail {
+  color: red;
+}
+/* Larger text for treatment name and price */
+.treatmentName {
+  
+  font-size: 1.2em;
+  font-weight: 500; /* semi-bold */
+  color:#4CAF50; /* dark grey for better readability */
+}
+
+
+.treatmentPrice {
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: 400;
+  font-size: 1.1em;
+  color:black;
+}
+/* Style for treatment description */
+.treatmentDescription {
+  margin-top: 5px;
+  font-size: 1em;
+  color: #666666; /* medium grey */
+}
+
+/* Style for Edit button */
+.editStyleBtn {
+  background-color: #f0ad4e; /* Bootstrap's button-warning color */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  margin-right: 10px; /* space from the right */
+  cursor: pointer;
+  transition: all 0.2s ease-in-out; /* smooth transition */
+}
+
+/* Hover effect for Edit button */
+.editStyleBtn:hover {
+  background-color: #ec971f; /* darker shade of button-warning */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* shadow on hover */
+}
+
+/* Apply similar styles for other buttons you may have like a Delete button */

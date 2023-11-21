@@ -1,0 +1,171 @@
+
+  
+
+
+  /* AppointmentForm Component Design*/
+
+  
+  .appointmentFormCard {
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px auto;
+    width: 100%;
+    max-width: 600px; /* Adjust as needed */
+  }
+  
+  .formTitle {
+    color: #4ECB71;
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .formGroup {
+    margin-bottom: 15px;
+  }
+  
+  .label {
+    display: block;
+    color: #4ECB71;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .input,
+  .select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #dcdcdc;
+    font-size: 16px;
+  }
+  
+  .datePicker input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #dcdcdc;
+    font-size: 16px;
+  }
+  
+  .errorMsg {
+    color: #FF0000;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+  
+  .submitButton {
+    background-color: #4ECB71;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .submitButton:hover {
+    background-color: #3ea85f;
+  }
+  
+  /* Responsive design adjustments */
+  @media (max-width: 768px) {
+    .appointmentFormCard {
+      width: 90%;
+    }
+  }
+  
+  /* Additional styles for react-datepicker */
+  .react-datepicker-wrapper {
+    width: 100%;
+  }
+  
+  .react-datepicker__input-container {
+    width: 100%;
+  }
+  
+  .react-datepicker__input-container input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #dcdcdc;
+    font-size: 16px;
+  }
+
+  .checkboxGroup {
+    display: flex;
+    align-items: center; /* This ensures vertical alignment */
+    
+  }
+  
+  .checkboxInput {
+    margin-left: 8px; /* This adds some space between the checkbox and the label */
+  }
+  
+  /* ...other styles... */
+  
+
+  /* Add Pet Form Design*/
+  
+  .PetformContainer {
+    
+    max-width: 400px; /* Set to desired maximum width */
+    padding: 20px; /* Add some padding */
+    padding-right: 20px; /* Adjust right padding if necessary */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow around the form */
+    background: #fff; /* Optional: sets a white background */
+    border-radius: 8px; /* Optional: rounds the corners */
+  }
+
+
+.PetformGroup {
+  margin-bottom: 20px;
+}
+
+.Petlabel {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.Petinput,
+.Petselect,
+.PetfileInput {
+ 
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.Petbutton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.Peterror {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 5px;
+}
+
+.PetimagePreview {
+  max-width: 200px;
+  max-height: 200px;
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .Petcontainer {
+    width: 90%;
+  }
+}

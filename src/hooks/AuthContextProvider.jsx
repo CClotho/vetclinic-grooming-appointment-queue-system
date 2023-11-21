@@ -19,7 +19,7 @@ export const AuthContextProvider = ({ children }) => {
                     const response = await baseURL.get('/user/me', { withCredentials: true }); // Make sure you send the credentials (cookies)
                     
                     if (response.status === 200) {
-                        setUser(response.data);
+                        setUser(response.data); // includes user.client
                         setAuthenticated(true) // assuming your backend sends user data under 'user' key this is safe
                     }
                 } catch (error) {

@@ -1,12 +1,13 @@
 // Import the API function
 import { useFetchPendingAppointments, useUpdateStatusMutation } from '../../hooks/appointment/useAdminAppointment';
+import styles from '../../assets/styles/pending.module.css'; // Import CSS module
+import { useAuth } from '../../hooks/AuthContext';
 
 
-
-const PendingAppointmentsPage = () => {
+const AdminPending = () => {
     
     const { data: pendingAppointments } = useFetchPendingAppointments();
-    console.log(pendingAppointments)
+    const {user} = useAuth();
        // Mutation for updating the appointment status
        const { mutate } = useUpdateStatusMutation();
 
@@ -22,19 +23,19 @@ const PendingAppointmentsPage = () => {
             
             return chosenSizeDetail ? (
                 <div>
-                    <p>Service Name: {serviceDetails.name}</p>
-                    <p>Size: {chosenSizeDetail.size}</p>
-                    <p>Price: {chosenSizeDetail.price}</p>
-                    <p>Details: {chosenSizeDetail.description}</p>
+                    <p>Service Name: {serviceDetails?.name}</p>
+                    <p>Size: {chosenSizeDetail?.size}</p>
+                    <p>Price: {chosenSizeDetail?.price}</p>
+                    <p>Details: {chosenSizeDetail?.description}</p>
                 </div>
             ) : <p>Size not specified</p>;
         } else if (serviceType === 'treatment') {
             const serviceDetails = service.serviceId; // Assuming this is an object with service details
             return (
                 <div>
-                    <p>Appointment: {serviceDetails.name}</p>
-                    <p>Price: {serviceDetails.price}</p>
-                    <p>Description: {serviceDetails.description}</p>
+                    <p>Appointment: {serviceDetails?.name}</p>
+                    <p>Price: {serviceDetails?.price}</p>
+                    <p>Description: {serviceDetails?.description}</p>
                 </div>
             );
         }
@@ -51,7 +52,7 @@ const PendingAppointmentsPage = () => {
     
                 return (
                     <li key={serviceKey}>
-                        {service.name}
+                        {service?.name}
                         {renderServiceDetails(service, serviceType)}
                     </li>
                 );
@@ -60,28 +61,35 @@ const PendingAppointmentsPage = () => {
        
         return null;
     };
-    
+
+
 
     return (
         <div>
             <h1>Pending Appointments</h1>
             {pendingAppointments?.length > 0 ? (
                 pendingAppointments.map(appointment => (
-                    <div key={appointment._id}>
+                    <div key={appointment._id} className={styles.appointmentCard}>
+                       <div className={styles.appointmentHeader}>
                         <p>Appointment ID: {appointment._id}</p>
-                        <p>Client: {appointment.client?.first_name} {appointment.client?.last_name} </p>
-                        <p>Pet: {appointment.pet?.pet_name}  </p>
-                        <p>Service Type: {appointment.service_type}</p>
-                        <p>Services:</p>
-                        <ul>
-                            {renderServices(appointment.services, appointment.service_type, appointment._id)}
-                        </ul>
-                        <button onClick={() => handleUpdateStatus(appointment._id, 'approved')}>
-                            Approve
-                        </button>
-                        <button onClick={() => handleUpdateStatus(appointment._id, 'declined')}>
-                            Decline
-                        </button>
+                            <p>Client: {appointment.client?.first_name} {appointment.client?.last_name} </p>
+                            <p>Pet: {appointment.pet?.pet_name}  </p>
+                            <p>Service Type: {appointment.service_type}</p>
+                            <p>Services:</p>
+                            <div className={styles.serviceList}>
+                                <ul>
+                                    {renderServices(appointment.services, appointment.service_type, appointment._id)}
+                                </ul>
+                            </div>
+                          {user.role === 'doctor' && ( <div>
+                            <button className={`${styles.buttonApprove} ${styles.button}`}onClick={() => handleUpdateStatus(appointment._id, 'approved')}>
+                                    Approve
+                                </button>
+                            <button className={`${styles.buttonDecline} ${styles.button}`} onClick={() => handleUpdateStatus(appointment._id, 'declined')}>
+                                    Decline
+                                </button>
+                            </div>)}
+                        </div>
                     </div>
                 ))
             ) : (
@@ -91,4 +99,4 @@ const PendingAppointmentsPage = () => {
     );
 };
 
-export default PendingAppointmentsPage;
+export default AdminPending;

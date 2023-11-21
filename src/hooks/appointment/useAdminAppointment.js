@@ -19,24 +19,39 @@ export const useCreateAppointment = () => {
 };
 
 
-
-// for form in creating an appointment
-
-export const useFetchClientsInfo= () => {
- 
-
-  return useQuery({
-      queryKey: ['clientInformation'],
-      queryFn: api.fetchClientsInfo,
-      onSuccess: (data) => {
-          console.log("Fetched clients information:", data);
-      },
-      onError: (error) => {
-          console.error("Error fetching clients information", error);
-      },
-     
-  });
+export const useUpdateAppointmentForm = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+  mutationFn: api.updateAppointmentForm,
+  onSuccess: ( {id, data}) => {
+    console.log("Appointment updated successfully:", { id, data});
+    // Invalidate and refetch any related queries if needed
+    // For example, if you have a list of appointments:
+     queryClient.invalidateQueries('appointments');
+  },
+  onError: (error) => {
+    console.error("Error updating appointment:", error);
+  }
+});
 };
+
+
+
+
+export const useDeleteQueueAppointment = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+  mutationFn: api.deleteQueueAppointment,
+  onSuccess: (appointmentId) => {
+      console.log("Successfully Updated the appointment", appointmentId);
+      queryClient.invalidateQueries(['queueAppointmentsToday']);
+  },
+  // You can add other callbacks like onError, onSettled, etc. if needed
+});
+}
+
+
+
 
 
 export const useUpdateStatusMutation = () => {
@@ -58,6 +73,8 @@ export const useFetchPendingAppointments = () => {
   return useQuery({
       queryKey: ['pendingAppointments'],
       queryFn: api.fetchPendingAppointments,
+      retry: 2,
+      refetchOnWindowFocus: true,
       onSuccess: (data) => {
           console.log("Fetched pending appointments successfully:", data);
       },
@@ -76,6 +93,8 @@ export const useFetchAppointmentsQueueToday = () => {
   return useQuery({
       queryKey: ['queueAppointmentsToday'],
       queryFn: api.fetchAppointmentsQueueToday,
+      retry: 2,
+      refetchOnWindowFocus: true,
       onSuccess: (data) => {
           console.log("Fetched pending appointments successfully:", data);
       },
@@ -85,6 +104,22 @@ export const useFetchAppointmentsQueueToday = () => {
       // You can add additional options here if needed
   });
 };
+
+export const useUpdateAppointmentsQueueToday= () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+  mutationFn: api.updateAppointmentQueueStatus,
+  retry:2, 
+  onSuccess: (data) => {
+    console.log("Updated appointment queue status successfully:", data);
+    queryClient.invalidateQueries('queueAppointmentsToday'); // did change here 11/21/2023 12;04am in invalidating queries
+    },
+    onError: (error) => {
+        console.error("Error updating queue status:", error);
+    },
+  });
+};
+
 
 
 

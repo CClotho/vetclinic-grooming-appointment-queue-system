@@ -2,12 +2,13 @@
 import { useFormik } from 'formik';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useCreateAppointment, useFetchClientsInfo } from '../../hooks/appointment/useAdminAppointment';
+import { useCreateAppointment } from '../../hooks/appointment/useAdminAppointment';
+import { useFetchClientsInfo } from '../../hooks/clients/useAdminClients';
 import { useFetchTreatments } from '../../hooks/treatment/useTreatment';
 import { useFetchGroomingServices, useFetchPetSizes } from '../../hooks/grooming/useGrooming';
 import { DateTime } from 'luxon';
 import { useState } from 'react';
-
+import styles from '../../assets/styles/component.module.css'; // Import CSS module
 import * as Yup from 'yup';
 
 
@@ -135,115 +136,151 @@ const AppointmentForm = () => {
     
    
    
-
     return (
-        <form onSubmit={formik.handleSubmit}>
-             {/* Client Dropdown */}
-             <div>
-                <label>Client:</label>
-                <select name="client" value={formik.values.client} onChange={handleClientChange}>
-                    {clientInformation?.map(client => (
+        <div className={styles.appointmentFormCard}>
+            <form onSubmit={formik.handleSubmit}>
+                <div className={styles.formGroup}>
+                    <label htmlFor="client" className={styles.label}>Client:</label>
+                    <select
+                        id="client"
+                        name="client"
+                        className={styles.select}
+                        value={formik.values.client}
+                        onChange={handleClientChange}
+                    >
+                         {clientInformation?.map(client => (
                         <option key={client._id} value={client._id}>{client.first_name} {client.last_name}</option>
                     ))}
-                </select>
-                {formik.touched.client && formik.errors.client ? <div>{formik.errors.client}</div> : null}
-            </div>
-
-            {/* Pet Dropdown */}
-            {selectedClient && (
-                <div>
-                    <label>Pet:</label>
-                    <select name="pet" value={formik.values.pet} onChange={handlePetChange}>
-                        <option value="">Select a pet</option>
-                        {getClientPets().map(pet => (
-                            <option key={pet._id} value={pet._id}>{pet.pet_name}</option>
-                        ))}
                     </select>
-                    {formik.touched.pet && formik.errors.pet ? <div>{formik.errors.pet}</div> : null}
+                    {formik.touched.client && formik.errors.client && <div className={styles.errorMsg}>{formik.errors.client}</div>}
                 </div>
-            )}
 
-            {selectedPet && (
-                <div>
-                    <p>Breed: {getSelectedPetDetails().breed}</p>
-                    <p>Name: {getSelectedPetDetails().pet_name}</p>
-                    <p>Gender: {getSelectedPetDetails().gender}</p>
-                </div>
-            )}
-            <div>
-                <label>Date:</label>
-                <DatePicker selected={formik.values.date} onChange={date => formik.setFieldValue('date', date)} />
-            </div>
-           
-            <div>
-        <label>Service Type:</label>
-        <select name="service_type" {...formik.getFieldProps('service_type')}>
-            <option value="grooming">Grooming</option>
-            <option value="treatment">Treatment</option>
-        </select>
-    </div>
-
-    {formik.values.service_type === 'treatment' && !isLoadingTreatments && treatments && (
-        <div>
-            {/* Render checkboxes for treatments */}
-            {treatments.map(treatment => (
-                <div key={treatment._id}>
-                    <input
-                        type="checkbox"
-                        name="services"
-                        value={treatment._id}
-                        checked={formik.values.services.some(s => s.serviceId === treatment._id)}
-                        onChange={e => handleServiceChange(treatment._id, e)}
-                    />
-                    <label>{treatment.name}</label>
-                </div>
-            ))}
-        </div>
-    )}
-
-    {formik.values.service_type === 'grooming' && !isLoading && grooming && (
-        grooming.map(service => (
-            <div key={service._id}>
-                <input
-                    type="checkbox"
-                    name="services"
-                    value={service._id}
-                    onChange={e => handleServiceChange(service._id, e)}
-                />
-                <label>{service.name}</label>
-                {formik.values.services.some(s => s.serviceId === service._id) && (
-                    <select
-                        name="size"
-                        onChange={e => handleSizeChange(service._id, e.target.value)}
-                    >
-                        {petSizes ? (
-                            Array.isArray(petSizes) ? (
-                                petSizes.map(size => (
-                                    <option key={size._id} value={size._id}>{size.size}</option>
-                                ))
-                            ) : (
-                                <option value={petSizes._id}>{petSizes.size}</option>
-                            )
-                        ) : (
-                            <option>Loading sizes...</option> // Placeholder for when petSizes is loading or undefined
+                {/* Assuming you want to wrap the pet dropdown in formGroup as well */}
+                <div className={styles.formGroup}>
+                        
+                    {selectedClient && (
+                    <div className={styles.formGroup}>
+                        <label className={styles.label}>Pet:</label>
+                        <select name="pet" value={formik.values.pet}  className={styles.select} onChange={handlePetChange}>
+                            <option value="">Select a pet</option>
+                            {getClientPets().map(pet => (
+                                <option key={pet._id} value={pet._id}>{pet.pet_name}</option>
+                            ))}
+                        </select>
+                        {formik.touched.pet && formik.errors.pet ? <div>{formik.errors.pet}</div> : null}
+                    </div>
                     )}
-                </select>
-              )}
-        </div>
-        ))
-    )}
+                    
+                    {formik.touched.pet && formik.errors.pet && <div className={styles.errorMsg}>{formik.errors.pet}</div>}
+                </div>
 
-
-
-                
-           
-
-
+                {/* Additional pet details */}
+                <div className={styles.formGroup}>
             
-            {/* Add other fields similarly */}
-            <button type="submit">Submit</button>
-        </form>
+        
+                    {selectedPet && (
+                        <div>
+                            <p>Breed: {getSelectedPetDetails().breed}</p>
+                            <p>Name: {getSelectedPetDetails().pet_name}</p>
+                            <p>Gender: {getSelectedPetDetails().gender}</p>
+                        </div>
+                    )}
+                </div>
+
+                {/* Date Picker */}
+                <div className={styles.formGroup}>
+                    <label htmlFor="date" className={styles.label}>Date:</label>
+                    <DatePicker
+                        selected={formik.values.date}
+                        onChange={date => formik.setFieldValue('date', date)}
+                        className={styles.input}
+                    />
+                </div>
+
+                {/* Service Type Dropdown */}
+                <div className={styles.formGroup}>
+                    <label htmlFor="service_type" className={styles.label}>Service Type:</label>
+                    <select
+                        id="service_type"
+                        name="service_type"
+                        className={styles.select}
+                        value={formik.values.service_type}
+                        onChange={e => formik.setFieldValue('service_type', e.target.value)}
+                    >
+                        <option value="grooming">Grooming</option>
+                        <option value="treatment">Treatment</option>
+                    </select>
+                </div>
+
+                {/* Treatment Services Checkboxes */}
+                {formik.values.service_type === 'treatment' && treatments && (
+                    <div className={styles.checkboxGroup}>
+                        {treatments.map(treatment => (
+                            <div key={treatment._id}>
+                                <input
+                                    type="checkbox"
+                                    name="services"
+                                    id={`service_${treatment._id}`}
+                                    value={treatment._id}
+                                    checked={formik.values.services.some(s => s.serviceId === treatment._id)}
+                                    onChange={e => handleServiceChange(treatment._id, e)}
+                                    className={styles.checkboxInput}
+                                />
+                                <label htmlFor={`service_${treatment._id}`}>{treatment.name}</label>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+                {/* Grooming Services Checkboxes */}
+                {formik.values.service_type === 'grooming' && grooming && (
+                    <div className={styles.checkboxGroup}>
+                        {grooming.map(service => (
+                            <div key={service._id}>
+                                <input
+                                    type="checkbox"
+                                    name="services"
+                                    id={`service_${service._id}`}
+                                    value={service._id}
+                                    onChange={e => handleServiceChange(service._id, e)}
+                                    className={styles.checkboxInput}
+                                />
+                                <label htmlFor={`service_${service._id}`}>{service.name}</label>
+                                
+                               <div>
+                               {formik.values.services.some(s => s.serviceId === service._id) && (
+                                <select 
+                                    className={styles.select}
+                                    name="size"
+                                    onChange={e => handleSizeChange(service._id, e.target.value)}
+                                >
+                                    {petSizes ? (
+                                        Array.isArray(petSizes) ? (
+                                            petSizes.map(size => (
+                                                <option key={size._id} value={size._id}>{size.size}</option>
+                                            ))
+                                        ) : (
+                                            <option value={petSizes._id}>{petSizes.size}</option>
+                                        )
+                                    ) : (
+                                        <option>Loading sizes...</option> // Placeholder for when petSizes is loading or undefined
+                                )}
+                                </select>
+                                )}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+                {/* Submit Button */}
+                <div className={styles.formGroup}>
+                    <button type="submit" className={styles.submitButton}>Submit</button>
+                </div>
+            </form>
+        </div>
     );
 };
 
 export default AppointmentForm;
+

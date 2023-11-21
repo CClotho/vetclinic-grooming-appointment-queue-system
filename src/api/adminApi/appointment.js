@@ -8,11 +8,12 @@ export const createAppointment = async (data) => {
   return response.data;
 };
 
-// for form in creating an appointment
-export const fetchClientsInfo = async () => {
-  const response = await axios.get('http://localhost:3000/admin/clients/summary');
+
+export const deleteQueueAppointment = async (data) => {
+  const response = await axios.post('http://localhost:3000/admin/appointments/delete/appointment/queue', data);
   return response.data;
-}
+};
+
 
 export const fetchPendingAppointments = async () => {
   try {
@@ -34,12 +35,33 @@ export const updateAppointmentStatus = async (data) => {
   }
 };
 
-export const fetchAppointmentsQueueToday = async (data) => {
+export const fetchAppointmentsQueueToday = async () => {
   try {
-    const response = await axios.get('http://localhost:3000/admin/appointments/today/queue', data);
+    const response = await axios.get('http://localhost:3000/admin/appointments/today/queue');
+    return response.data;
+  } catch (error) {
+    console.error("Error sending request:", error);
+   
+  }
+};
+
+
+export const updateAppointmentQueueStatus = async (id, data) => {
+  try {
+    const response = await axios.post('http://localhost:3000/admin/appointment/update/queue', id, data);
     return response.data;
   } catch (error) {
     console.error("Error sending request:", error);
     throw error;
   }
 };
+
+export const updateAppointmentForm = async (data) => {
+  try {
+    const response = await axios.post('http://localhost:3000/admin/appointments/update/appointment', data);
+    return response.data;
+  } catch (error) {
+    console.error("Error sending request:", error);
+    throw error;
+  }
+};  
