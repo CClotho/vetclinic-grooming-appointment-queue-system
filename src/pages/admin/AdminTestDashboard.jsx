@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import { useQueryClient } from '@tanstack/react-query';
 import { useFetchPendingAppointments, useFetchAppointmentsQueueToday, useUpdateAppointmentsQueueToday, useDeleteQueueAppointment } from '../../hooks/appointment/useAdminAppointment';
-import axios from 'axios';
 import AddPetForm from '../../component/Pet/AddPetForm';
 import styles from '../../assets/styles/dashboard.module.css'; // Import CSS module
 import AppointmentCard from '../../component/Appointment/EditAdminQueue';
@@ -115,7 +114,7 @@ export const AdminTestDashboard = () => {
                 <h2>Grooming Appointments</h2>
                 {
                 filteredGroomingAppointments.length > 0 ? (
-                    filteredGroomingAppointments.map((appointment, index) => (
+                    filteredGroomingAppointments.map((appointment )=> (
                         <AppointmentCard
                         key={appointment._id}
                         appointment={appointment}
@@ -146,7 +145,7 @@ export const AdminTestDashboard = () => {
                     <h2>Treatment Appointments</h2>
                     {
                     filteredTreatmentAppointments.length > 0 ? (
-                        filteredTreatmentAppointments.map((appointment, index) => (
+                        filteredTreatmentAppointments.map((appointment) => (
                             <AppointmentCard
                             key={appointment._id}
                             appointment={appointment}
@@ -185,6 +184,7 @@ export const AdminTestDashboard = () => {
             </div>
         );
     };
+    console.log(appointments?.services)
 
     return (
         <div>

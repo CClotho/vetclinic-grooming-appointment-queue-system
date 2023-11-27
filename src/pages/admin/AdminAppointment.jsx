@@ -58,8 +58,8 @@ export const AdminAppointment= () => {
     };
     
     const handleEditSubmit = (appointmentId, updatedValues) => {
-        const test = updateAppointment.mutate({ id: appointmentId, data: updatedValues });
-        console.log(test)
+         updateAppointment.mutate({ id: appointmentId, data: updatedValues });
+        console.log(appointmentId, updatedValues)
         setSelectedAppointment(null);
       };
 
@@ -124,11 +124,18 @@ export const AdminAppointment= () => {
                                 
                                 </div>
                                 
+                               {appointment.size && (
+                                 <div className={styles.detailRow}>
+                                    <span className={styles.detailLabel}>Pet Size: {appointment.size?.size} </span>
+ 
+                                </div>
+                               )}
+                                
                                 <div className={styles.servicesList}>
                                     <h4 className={styles.detailLabel}>Services:</h4>
                                     {appointment.services?.map(service => (
                                         <div className={styles.serviceItem} key={service._id}>
-                                        <div>{service.serviceId?.name} - {service.chosenSize?.size}</div>
+                                        <div>{service?.name} - {service?.description}</div>
                                         </div>
                                     ))}
                                 </div>

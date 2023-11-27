@@ -17,18 +17,16 @@ const appointmentValidationSchema = Yup.object().shape({
     pet: Yup.string().required('Pet is required'),
     date: Yup.date().required('Date is required').nullable(),
     service_type: Yup.string().oneOf(['grooming', 'treatment'], 'Invalid service type').required(),
-    services: Yup.array().of(
-        Yup.object().shape({
-            serviceId: Yup.string().required('Service ID is required'),
-            serviceType: Yup.string().required('Service type is required'),
-            chosenSize: Yup.string().when('serviceType', (serviceType, schema) => {
-                return serviceType === 'grooming' ? schema.required('Size is required for grooming services') : schema.nullable();
-            })
-            
-        })
-    ),
-    status: Yup.string().oneOf(['pending', 'approved', 'declined', 'inProgress', 'finished', 'cancelled', 'noShow', 'reschedule'], 'Invalid status').required()
+    services: Yup.array().of(Yup.string().required('Service is required')).required('At least one service is required'),
+    size: Yup.string().when('service_type', (service_type, schema) => {
+        return service_type === 'grooming' ? schema.required('Size is required for grooming services') : schema.nullable();
+      }),
+      
+    notes: Yup.string().nullable(),
+    status: Yup.string().oneOf(['pending', 'approved', 'declined', 'started', 'finished', 'cancelled', 'noShow', 'reschedule'], 'Invalid status').required(),
+
 });
+
 
 const AppointmentForm = () => {
 
@@ -47,23 +45,19 @@ const AppointmentForm = () => {
             pet: '',
             date: null,
             service_type: 'grooming', // Default value
+            size: null,
             services: [],
             status: 'pending',
         },
         
         validationSchema: appointmentValidationSchema,
         onSubmit: (values) => {
-            // Format the services array according to your backend needs
-            const formattedServices = values.services.map(service => ({
-                serviceId: service.serviceId,
-                serviceType: service.serviceType || values.service_type,
-                chosenSize: (service.serviceType === 'grooming') ? service.chosenSize : undefined,
-            }));
+
     
             const formattedValues = {
                 ...values,
                 date: values.date ? DateTime.fromJSDate(values.date).toISO() : null,
-                services: formattedServices
+    
             };
     
             console.log("Formatted Submission Values", formattedValues);
@@ -72,6 +66,7 @@ const AppointmentForm = () => {
         },
         
     });
+    console.log(grooming)
 
     const handleClientChange = (event) => {
         const clientId = event.target.value;
@@ -99,39 +94,31 @@ const AppointmentForm = () => {
     
    
 
+
+
+  
+
     const handleServiceChange = (serviceId, e) => {
         const currentServices = formik.values.services;
+        const MAX_SERVICES = 5;
     
         if (e.target.checked) {
-            // Add the service only if less than 3 services are already selected
-            if (currentServices.length < 3) {
-                formik.setFieldValue("services", [
-                    ...currentServices,
-                    { serviceId, serviceType: 'grooming', chosenSize: petSizes[0]?._id || null }
-                ]);
+            
+            if (currentServices.length < MAX_SERVICES) {
+                formik.setFieldValue("services", [...currentServices, serviceId]);
             } else {
-                // Optionally, you can provide feedback to the user here
-                alert("You can select up to 3 services only.");
+                
+                e.preventDefault();
+               
+                alert(`You can select up to ${MAX_SERVICES} services only.`);
             }
         } else {
             // Remove the service if it's unchecked
-            formik.setFieldValue("services", 
-                currentServices.filter(s => s.serviceId !== serviceId)
-            );
+            formik.setFieldValue("services", currentServices.filter(s => s !== serviceId));
         }
     };
     
     
-    const handleSizeChange = (serviceId, sizeId) => {
-        const updatedServices = formik.values.services.map(service => {
-            if (service.serviceId === serviceId) {
-                return { ...service, chosenSize: sizeId };
-            }
-            return service;
-        });
-    
-        formik.setFieldValue("services", updatedServices);
-    };
 
     
    
@@ -222,7 +209,7 @@ const AppointmentForm = () => {
                                     name="services"
                                     id={`service_${treatment._id}`}
                                     value={treatment._id}
-                                    checked={formik.values.services.some(s => s.serviceId === treatment._id)}
+                                    checked={formik.values.services.includes(treatment._id)}
                                     onChange={e => handleServiceChange(treatment._id, e)}
                                     className={styles.checkboxInput}
                                 />
@@ -247,31 +234,33 @@ const AppointmentForm = () => {
                                 />
                                 <label htmlFor={`service_${service._id}`}>{service.name}</label>
                                 
-                               <div>
-                               {formik.values.services.some(s => s.serviceId === service._id) && (
-                                <select 
-                                    className={styles.select}
-                                    name="size"
-                                    onChange={e => handleSizeChange(service._id, e.target.value)}
-                                >
-                                    {petSizes ? (
-                                        Array.isArray(petSizes) ? (
-                                            petSizes.map(size => (
-                                                <option key={size._id} value={size._id}>{size.size}</option>
-                                            ))
-                                        ) : (
-                                            <option value={petSizes._id}>{petSizes.size}</option>
-                                        )
-                                    ) : (
-                                        <option>Loading sizes...</option> // Placeholder for when petSizes is loading or undefined
-                                )}
-                                </select>
-                                )}
-                                </div>
+                               
                             </div>
                         ))}
                     </div>
                 )}
+
+                {formik.values.service_type === 'grooming' && petSizes && (
+                    <select 
+                        className={styles.select}
+                        name="size"
+                        onChange={formik.handleChange}
+                    >
+                        <option value="" disabled selected>Select a size</option>
+                        {petSizes.length > 0 ? (
+                            Array.isArray(petSizes) ? (
+                                petSizes.map(size => (
+                                    <option key={size._id} value={size._id}>{size.size}</option>
+                                ))
+                            ) : (
+                                <option value={petSizes._id}>{petSizes.size}</option>
+                            )
+                        ) : (
+                            <option>Loading sizes...</option> // Placeholder for when petSizes is loading or undefined
+                        )}
+                    </select>
+                )}
+
 
                 {/* Submit Button */}
                 <div className={styles.formGroup}>

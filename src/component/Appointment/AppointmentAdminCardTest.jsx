@@ -16,6 +16,7 @@ const AppointmentCard = ({ appointment, onUpdate, onDelete }) => {
         console.log('appointment.duration:', appointment.duration);
          console.log('appointment.startTime:', appointment.startTime);
         console.log('calculated duration state:', duration);
+        console.log('appointments', appointment.services)
 
     
         if (appointment.status === 'started' && appointment.startTime) {
@@ -62,7 +63,7 @@ const AppointmentCard = ({ appointment, onUpdate, onDelete }) => {
         },
     });
 
-    
+  
 
     const formatDuration = (seconds) => {
         const minutes = Math.floor(seconds / 60);
@@ -156,13 +157,15 @@ const AppointmentCard = ({ appointment, onUpdate, onDelete }) => {
                     </div>
 
                     <div className={styles.servicesList}>
-                            <h4 className={styles.detailLabel}>Services:</h4>
-                            {appointment.services?.map(service => (
-                                <div className={styles.serviceItem} key={service._id}>
-                                <div>{service.serviceId?.name} - {service.chosenSize?.size}</div>
-                                </div>
-                            ))}
-                        </div>
+                        <h4 className={styles.detailLabel}>Services:</h4>
+                        {appointment.services?.map((service, index) => (
+                            
+                            <div className={styles.serviceItem} key={service._id || index}>
+                                <div>{service.name} - {service.description}</div>
+                            </div>
+                        ))}
+                    </div>
+
                 </>
             )}
 

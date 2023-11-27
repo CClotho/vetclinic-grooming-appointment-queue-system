@@ -15,32 +15,8 @@ const AdminPending = () => {
         console.log({appointmentId, newStatus})
       mutate( {appointmentId, newStatus });
     };
+     console.log(pendingAppointments)
 
-    const renderServiceDetails = (service, serviceType) => {
-        if (serviceType === 'grooming') {
-            const chosenSizeDetail = service.chosenSize;
-            const serviceDetails = service.serviceId; // Assuming this is an object with service details
-            
-            return chosenSizeDetail ? (
-                <div>
-                    <p>Service Name: {serviceDetails?.name}</p>
-                    <p>Size: {chosenSizeDetail?.size}</p>
-                    <p>Price: {chosenSizeDetail?.price}</p>
-                    <p>Details: {chosenSizeDetail?.description}</p>
-                </div>
-            ) : <p>Size not specified</p>;
-        } else if (serviceType === 'treatment') {
-            const serviceDetails = service.serviceId; // Assuming this is an object with service details
-            return (
-                <div>
-                    <p>Appointment: {serviceDetails?.name}</p>
-                    <p>Price: {serviceDetails?.price}</p>
-                    <p>Description: {serviceDetails?.description}</p>
-                </div>
-            );
-        }
-    };
-    
     
     
 
@@ -62,7 +38,29 @@ const AdminPending = () => {
         return null;
     };
 
-
+   
+    const renderServiceDetails = (service, serviceType) => {
+        if (serviceType === 'grooming') {
+           // Assuming this is an object with service details
+            
+            return  (
+                <div>
+                    <p>Service Name: {service?.name}</p>
+                    <p>Price: {service?.price}</p>
+                    <p>Details: {service?.description}</p>
+                </div>
+            )
+        } else if (serviceType === 'treatment') {
+            return (
+                <div>
+                    <p>Appointment: {service?.name}</p>
+                    <p>Price: {service?.price}</p>
+                    <p>Description: {service?.description}</p>
+                </div>
+            );
+        }
+    };
+    
 
     return (
         <div>
@@ -75,10 +73,14 @@ const AdminPending = () => {
                             <p>Client: {appointment.client?.first_name} {appointment.client?.last_name} </p>
                             <p>Pet: {appointment.pet?.pet_name}  </p>
                             <p>Service Type: {appointment.service_type}</p>
+                            {appointment.size && (
+                                       <p> Pet Size: {appointment.size.size} </p>
+                                    )}
                             <p>Services:</p>
                             <div className={styles.serviceList}>
                                 <ul>
                                     {renderServices(appointment.services, appointment.service_type, appointment._id)}
+                                    
                                 </ul>
                             </div>
                           {user.role === 'doctor' && ( <div>

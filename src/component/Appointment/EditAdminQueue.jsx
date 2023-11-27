@@ -164,7 +164,7 @@ const AppointmentCard = ({ appointment, onUpdate, onDelete }) => {
                             <h4 className={styles.detailLabel}>Services:</h4>
                             {appointment.services?.map(service => (
                                 <div className={styles.serviceItem} key={service._id}>
-                                <div>{service.serviceId?.name} - {service.chosenSize?.size}</div>
+                                <div>{service?.name} - {service?.description}</div>
                                 </div>
                             ))}
                         </div>
