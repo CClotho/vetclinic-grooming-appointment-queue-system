@@ -45,7 +45,7 @@ const AppointmentForm = () => {
             pet: '',
             date: null,
             service_type: 'grooming', // Default value
-            size: null,
+            size: '',
             services: [],
             status: 'pending',
         },
@@ -221,7 +221,7 @@ const AppointmentForm = () => {
 
                 {/* Grooming Services Checkboxes */}
                 {formik.values.service_type === 'grooming' && grooming && (
-                    <div className={styles.checkboxGroup}>
+                    <div>
                         {grooming.map(service => (
                             <div key={service._id}>
                                 <input
@@ -245,6 +245,7 @@ const AppointmentForm = () => {
                         className={styles.select}
                         name="size"
                         onChange={formik.handleChange}
+                        value={formik.values.size} 
                     >
                         <option value="" disabled selected>Select a size</option>
                         {petSizes.length > 0 ? (

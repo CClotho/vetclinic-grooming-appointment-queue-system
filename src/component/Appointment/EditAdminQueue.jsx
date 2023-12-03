@@ -97,8 +97,22 @@ const AppointmentCard = ({ appointment, onUpdate, onDelete }) => {
                 <form onSubmit={formik.handleSubmit}>
                     {/* Editable fields */}
                     <div className={styles.detailRow}>
-                        <label>Status:</label>
-                        <input type="text" name="status" onChange={formik.handleChange} value={formik.values.status} />
+                                    <label>Status:</label>
+                        <select 
+                            name="status" 
+                            onChange={formik.handleChange} 
+                            value={formik.values.status}
+                            className={styles.select}
+                        >
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="declined">Declined</option>
+                            <option value="started">Started</option>
+                            <option value="finished">Finished</option>
+                            <option value="cancelled">Cancelled</option>
+                            <option value="noShow">No Show</option>
+                            <option value="reschedule">Reschedule</option>
+                        </select>
                     </div>
                     <div className={styles.detailRow}>
                         <label>Queue Position:</label>

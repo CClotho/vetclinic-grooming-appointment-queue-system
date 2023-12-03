@@ -62,7 +62,7 @@ const EditGroomingForm = ({ initialData, onSubmitSuccess }) => {
                     Availability
                 </label>
             </div>
-      <button type="submit" className={styles.updateTreatmentBtn}>Update Treatment</button>
+      <button type="submit" className={styles.updateTreatmentBtn}>Update Service</button>
     </form>
   );
 };
