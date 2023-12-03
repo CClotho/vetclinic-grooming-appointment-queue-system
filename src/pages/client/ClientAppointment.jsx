@@ -180,15 +180,24 @@ export const ClientAppointment= () => {
                        
                        
                         </div>
+
+                          
+                        {appointment.size && (
+                                 <div className={styles.detailRow}>
+                                    <span className={styles.detailLabel}>Pet Size: {appointment.size?.size} </span>
+ 
+                                </div>
+                               )}
                         
                         <div className={styles.servicesList}>
-                            <h4 className={styles.detailLabel}>Services:</h4>
-                            {appointment.services.map(service => (
-                                <div className={styles.serviceItem} key={service._id}>
-                                <div>{service.serviceId?.name} - {service.chosenSize?.size}</div>
-                                </div>
-                            ))}
-                        </div>
+                        <h4 className={styles.detailLabel}>Services:</h4>
+                        {appointment.services?.map((service, index) => (
+                            
+                            <div className={styles.serviceItem} key={service._id || index}>
+                                <div>{service.name} - {service.description}</div>
+                            </div>
+                        ))}
+                    </div>
                         
                        
                         

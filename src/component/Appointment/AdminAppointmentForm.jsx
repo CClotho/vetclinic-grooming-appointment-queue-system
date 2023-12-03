@@ -201,7 +201,7 @@ const AppointmentForm = () => {
 
                 {/* Treatment Services Checkboxes */}
                 {formik.values.service_type === 'treatment' && treatments && (
-                    <div className={styles.checkboxGroup}>
+                    <div>
                         {treatments.map(treatment => (
                             <div key={treatment._id}>
                                 <input
