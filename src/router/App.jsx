@@ -12,6 +12,7 @@ import { ProtectedPending } from "../pages/PendingAppointments";
 import { ClientProfile } from "../component/Client/ClientProfile";
 
 import { ProtectedAppointment } from "../pages/ProtectedAppointment";
+import { Info } from "../pages/shared/Info";
 
 export const router = createBrowserRouter([
     // parent route component
@@ -27,6 +28,7 @@ export const router = createBrowserRouter([
             {path: "/clients", element: <AdminClientsPage/> },
             { path:"/service/treatment",  element: <TreatmentService/>},
             {path: "/service/grooming", element: <GroomingService/> },
+            {path: "/info", element: <Info/> },
             {
               path: "/clients",
               element: <AdminClientsPage/>,

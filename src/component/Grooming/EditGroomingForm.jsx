@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
 import { useEditGrooming } from '../../hooks/grooming/useAdminGrooming';
 import { treatmentValidationSchema } from '../Treatment/AddTreatmentForm';
-import styles from '../../assets/styles/modal.module.css'; // Assuming you have CSS module
+import styles from '../../assets/styles/modal.module.css'; 
 const EditGroomingForm = ({ initialData, onSubmitSuccess }) => {
   const editGrooming = useEditGrooming();
 
