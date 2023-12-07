@@ -8,36 +8,7 @@ export const Info = () => {
     return (
 
         <>
-         <div className={styles.imageContainer}>
-
-            <div>
-                <img src="/src/assets/images/Pet1.png" alt="pet1"/>
-            </div>
-
-            <div>
-                <img src="/src/assets/images/Pet2.png" alt="pet2"/>
-            </div>
-
-            <div>
-                <img src="/src/assets/images/Pet3.png" alt="pet3"/>
-            </div>
-
-            <div>
-                <img src="/src/assets/images/Pet4.png" alt="pet4"/>
-            </div>
-
-            <div>
-                <img src="/src/assets/images/Pet5.jpg" alt="pet5"/>
-            </div>
-
-            <div>
-                <img src="/src/assets/images/Pet6.jpg" alt="pet6"/>
-            </div>
-
-
-
-
-        </div>
+       
 
         <div className={styles.infoContainer}>
 
@@ -91,10 +62,43 @@ export const Info = () => {
                 
            </div>
 
+           
+
             
         
 
            
+        </div>
+
+          <div className={styles.imageContainer}>
+
+            <div>
+                <img src="/src/assets/images/Pet1.png" alt="pet1"/>
+            </div>
+
+            <div>
+                <img src="/src/assets/images/Pet2.png" alt="pet2"/>
+            </div>
+
+            <div>
+                <img src="/src/assets/images/Pet3.png" alt="pet3"/>
+            </div>
+
+            <div>
+                <img src="/src/assets/images/Pet4.png" alt="pet4"/>
+            </div>
+
+            <div>
+                <img src="/src/assets/images/Pet5.jpg" alt="pet5"/>
+            </div>
+
+            <div>
+                <img src="/src/assets/images/Pet6.jpg" alt="pet6"/>
+            </div>
+
+
+
+
         </div>
         </>
        

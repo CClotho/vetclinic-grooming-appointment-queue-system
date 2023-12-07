@@ -8,7 +8,7 @@ import AppointmentContext from '../../hooks/AppointmentContext';
 const AppointmentCard = ({ appointment, onUpdate, onDelete }) => {
     const [isEditMode, setIsEditMode] = useState(false);
     const [duration, setDuration] = useState(0);
-    const { appointments, startTimer, stopTimer } = useContext(AppointmentContext);
+    const { appointments, startTimer, stopTimer, resumeTimer } = useContext(AppointmentContext);
     const {user} = useAuth();
 
     useEffect(() => {
@@ -22,10 +22,11 @@ const AppointmentCard = ({ appointment, onUpdate, onDelete }) => {
      
         if (appointment.status === 'started' && appointment.startTime) {
             const startTime = new Date(appointment.startTime).getTime();
+            const pausedDuration = appointment.pausedDuration || 0;
     
             interval = setInterval(() => {
                 const now = Date.now();
-                const newDuration = Math.floor((now - startTime) / 1000);
+                const newDuration = Math.floor((now - startTime) / 1000) + pausedDuration;
                 setDuration(newDuration);
                 console.log('Duration Updated:', newDuration);
             }, 1000);
@@ -34,11 +35,11 @@ const AppointmentCard = ({ appointment, onUpdate, onDelete }) => {
         }
     
         return () => clearInterval(interval);
-    }, [appointment.status, appointment.startTime, appointment.isTracking]);
+    }, [appointment.status, appointment.startTime, appointment.isTracking,appointment.pausedDuration]);
     
 
     const appointmentUpdateSchema = Yup.object().shape({
-        status: Yup.string().oneOf(['pending', 'approved', 'declined', 'started', 'finished', 'cancelled', 'noShow', 'reschedule']),
+        status: Yup.string().oneOf(['pending', 'approved', 'declined', 'paused','started', 'finished', 'cancelled', 'noShow', 'reschedule']),
         queuePosition: Yup.number().positive().integer(),
         
         // Add more validations as needed
@@ -79,13 +80,24 @@ const AppointmentCard = ({ appointment, onUpdate, onDelete }) => {
         stopTimer(appointment._id);
         
         const updatedValues = {
-            status: 'finished', 
+            status: 'paused', 
             queuePosition: null,
             duration: duration// or another appropriate status
             // any other fields you want to update
         };
         onUpdate(appointment._id, updatedValues);
     };
+
+    const handleResume = () => {
+        // Resume the timer
+        resumeTimer(appointment._id);
+      
+        // Update the status or other fields if necessary
+        const updatedValues = {
+         status: 'started'
+        };
+        onUpdate(appointment._id, updatedValues);
+      };
 
     return (
         <div className={styles.appointmentCard}>
@@ -108,6 +120,7 @@ const AppointmentCard = ({ appointment, onUpdate, onDelete }) => {
                             <option value="approved">Approved</option>
                             <option value="declined">Declined</option>
                             <option value="started">Started</option>
+                            <option value="paused">Paused</option>
                             <option value="finished">Finished</option>
                             <option value="cancelled">Cancelled</option>
                             <option value="noShow">No Show</option>
@@ -169,8 +182,8 @@ const AppointmentCard = ({ appointment, onUpdate, onDelete }) => {
                         <span className={styles.detailLabel}>Duration:</span>
                         <span className={styles.detailValue}>
                             {appointment.status === 'started'
-                                ? formatDuration(duration)
-                                : formatDuration(appointment.duration)}
+                                ? formatDuration(Math.floor(duration))
+                                : formatDuration(Math.floor(appointment.duration))}
                         </span>
                     </div>
 
@@ -193,6 +206,9 @@ const AppointmentCard = ({ appointment, onUpdate, onDelete }) => {
                     <button onClick={() => setIsEditMode(true)} className={styles.newButton}>Edit</button>
                     {appointment.status === 'started' && (
                         <button onClick={handleStop} className={styles.stopButton}>Stop</button>
+                    )}
+                    {appointment.status === 'paused' && (
+                    <button onClick={handleResume} className={styles.resumeButton}>Resume</button>
                     )}
                    </>
                 )}

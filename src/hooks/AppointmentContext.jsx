@@ -49,6 +49,26 @@ export const AppointmentProvider = ({ children}) => {
     );
   };
 
+  const resumeTimer = (appointmentId) => {
+    setAppointments((prevAppointments) =>
+      prevAppointments.map((appointment) => {
+        if (appointment._id === appointmentId) {
+          // Calculate elapsed time since the appointment was paused
+          const pausedDuration = appointment.pausedDuration;
+          // Resume tracking by setting startTime to now minus the elapsed time
+          const now = Date.now();
+          return { 
+            ...appointment, 
+            isTracking: true, 
+            startTime: now - pausedDuration * 1000, // Convert seconds back to milliseconds
+            pausedDuration: 0, // Reset pausedDuration
+          };
+        }
+        return appointment;
+      })
+    );
+  };
+
   // Function to stop tracking elapsed time
   const stopTimer = (appointmentId) => {
     setAppointments((prevAppointments) =>
@@ -67,7 +87,7 @@ export const AppointmentProvider = ({ children}) => {
   };
 
   return (
-    <AppointmentContext.Provider value={{ appointments, setAppointments, startTimer, stopTimer }}>
+    <AppointmentContext.Provider value={{ appointments, setAppointments, startTimer, stopTimer, resumeTimer }}>
       {children}
     </AppointmentContext.Provider>
   ); 

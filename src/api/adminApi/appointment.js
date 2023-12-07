@@ -65,3 +65,13 @@ export const updateAppointmentForm = async (data) => {
     throw error;
   }
 };  
+
+export const fetchAppointmentList = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/admin/appointments/list');
+    return response.data;
+  } catch (error) {
+    console.error("Error sending request:", error);
+   
+  }
+};

@@ -122,4 +122,20 @@ export const useUpdateAppointmentsQueueToday= () => {
 
 
 
+export const useFetchAppointmentList = () => {
+ 
+
+  return useQuery({
+      queryKey: ['AppointmentList'],
+      queryFn: api.fetchAppointmentList,
+      retry: 2,
+      onSuccess: (data) => {
+          console.log("Fetched pending appointments successfully:", data);
+      },
+      onError: (error) => {
+          console.error("Error fetching pending appointments:", error);
+      },
+      // You can add additional options here if needed
+  });
+};
 
