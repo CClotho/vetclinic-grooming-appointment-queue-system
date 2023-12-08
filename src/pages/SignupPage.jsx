@@ -22,7 +22,7 @@ export const SignupPage = ()=> {
         </div>
         <br/>
       
-        <div className={styles.loginForm}>
+        <div>
             <SignupForm/>
         </div>
        

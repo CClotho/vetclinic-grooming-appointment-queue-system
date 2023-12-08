@@ -4,7 +4,7 @@ import style from '../assets/styles/style.module.css';
 import { signup } from "../hooks/users/useSignup";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../hooks/AuthContext";
-import styles from  './../assets/styles/form.module.css';
+import styles from  './../assets/styles/sign_up_form.module.css';
 
 const SignupForm = () => {
     const {user, isAuthenticated} = useAuth();
