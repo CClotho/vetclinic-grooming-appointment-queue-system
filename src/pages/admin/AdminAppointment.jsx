@@ -8,13 +8,15 @@ import styles from '../../assets/styles/dashboard.module.css'; // Import CSS mod
 import EditAppointmentForm from "../../component/Appointment/AdminAppointmentEdit";
 import {  useUpdateAppointmentForm } from '../../hooks/appointment/useAdminAppointment';
 import { useFetchAppointmentList } from "../../hooks/appointment/useAdminAppointment";
+import DatePicker from "react-datepicker";
+import 'react-datepicker/dist/react-datepicker.css';
 //const socket = io("http://localhost:3000");
 
 export const AdminAppointment= () => {
    
     const { data: pendingAppointments } = useFetchPendingAppointments();
     const { data: appointments, isLoadingAppointments } = useFetchAppointmentsQueueToday();
-    const {data: appointmentList} = useFetchAppointmentList();
+   
     const [groomingSearchTerm, setGroomingSearchTerm] = useState('');
     const [treatmentSearchTerm, setTreatmentSearchTerm] = useState('');
     const [selectedAppointment, setSelectedAppointment] = useState(null);
@@ -23,6 +25,7 @@ export const AdminAppointment= () => {
     const [filterDate, setFilterDate] = useState('');
     const [filterServiceType, setFilterServiceType] = useState('');
     const [appointmentSearchTerm, setAppointmentSearchTerm] = useState('');
+    const {data: appointmentList} = useFetchAppointmentList();
   
     console.log(appointmentList)
 
@@ -123,7 +126,7 @@ export const AdminAppointment= () => {
                                 
                                 <div className={styles.detailRow}>
                                 <span className={styles.detailLabel}>Duration (mins):
-                                {appointment.duration ? formatDuration(appointment.duration) 
+                                {appointment.duration ? formatDuration(Math.floor(appointment.duration))
                                 : 
                                 (appointment.status === 'started' ? 
                                 formatDuration() : 'Not Started')}
@@ -178,7 +181,7 @@ export const AdminAppointment= () => {
                             
                         <div className={styles.detailRow}>
                             <span className={styles.detailLabel}>Date:</span>
-                            <span className={styles.detailValue}>{new Date(appointment.date).toLocaleDateString()}</span>
+                            <span className={styles.detailValue}>{new Date(appointment.date).toDateString()}</span>
                         </div>
                             
                         <div className={styles.detailRow}>
@@ -277,9 +280,26 @@ export const AdminAppointment= () => {
           const clientName = `${appointment.client?.first_name} ${appointment.client?.last_name}`.toLowerCase();
           const petName = appointment.pet?.pet_name?.toLowerCase();
           const matchesSearchTerm = clientName.includes(searchTerm.toLowerCase()) || petName.includes(searchTerm.toLowerCase());
-          const matchesDate = filterDate ? new Date(appointment.date).toDateString() === new Date(filterDate).toDateString() : true;
-          const matchesServiceType = filterServiceType ? appointment.service_type === filterServiceType : true;
+          console.log('Current appointment date:', new Date(appointment.date).toDateString());
+            
+          let matchesDate = true;
+          if(filterDate) {
+
+            const appointmentDateString = new Date(appointment?.date).toDateString();
+            const filterDateString = filterDate && filterDate?.toDateString();
+
+            console.log('Appointment date:', appointmentDateString);
+            console.log('Filter date:', filterDateString);
+
+            matchesDate = filterDateString === appointmentDateString;
+
+          }
           
+            
+           
+
+          const matchesServiceType = filterServiceType ? appointment.service_type === filterServiceType : true;
+         
           return matchesSearchTerm && matchesDate && matchesServiceType;
         });
       
@@ -376,7 +396,7 @@ export const AdminAppointment= () => {
                         <input
                             className={styles.searchInput}
                             type="text"
-                            placeholder="Search Grooming Appointments..."
+                            placeholder="Search Appointments..."
                             onChange={(e) => setAppointmentSearchTerm(e.target.value)}
                         />
                         <span className={styles.searchIcon}>
@@ -386,12 +406,17 @@ export const AdminAppointment= () => {
                     <h2>Appointment List</h2>
 
                     {/* Date filter input */}
-                    <input
-                        type="date"
-                        value={filterDate}
-                        onChange={(e) => setFilterDate(e.target.value)}
-                        placeholder="Filter by Date..."
-                    />
+                    <div >
+                        <label htmlFor="date" >Select Date:</label>
+                        <DatePicker
+                        selected={filterDate}
+                        onChange={date => {
+                            console.log(date); // Log the selected date
+                            setFilterDate(date)}}
+                        dateFormat="yyyy-MM-dd"
+                    
+                        />
+                    </div>
                     
                     {/* Service type filter input */}
                     <select
