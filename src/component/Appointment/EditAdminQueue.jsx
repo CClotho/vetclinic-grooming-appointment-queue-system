@@ -82,7 +82,6 @@ const AppointmentCard = ({ appointment, onUpdate, onDelete }) => {
         
         const updatedValues = {
             status: 'paused', 
-            queuePosition: null,
             duration: duration// or another appropriate status
             // any other fields you want to update
         };

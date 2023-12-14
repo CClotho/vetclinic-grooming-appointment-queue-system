@@ -63,6 +63,8 @@ export const ClientDashboard= () => {
         if (isLoadingAppointments) {
             return <div>Loading Appointments...</div>;
         }
+
+       
         const filterAppointments = (appointments, searchTerm) => {
             if (!searchTerm) return appointments;
         
@@ -184,6 +186,8 @@ export const ClientDashboard= () => {
             </div>
         );
     };
+
+    
     
 
 

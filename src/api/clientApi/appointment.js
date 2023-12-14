@@ -29,3 +29,13 @@ export const fetchPendingAppointments = async () => {
     throw error;
   }
 };
+
+export const fetchAppointmentHistory = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/client/appointments/history');
+    return response.data;
+  } catch (error) {
+    console.error("Error sending request:", error);
+   
+  }
+};

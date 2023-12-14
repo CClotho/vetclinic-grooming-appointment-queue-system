@@ -72,6 +72,8 @@ const AdminPending = () => {
                         <p>Appointment ID: {appointment._id}</p>
                             <p>Client: {appointment.client?.first_name} {appointment.client?.last_name} </p>
                             <p>Pet: {appointment.pet?.pet_name}  </p>
+                            <span className={styles.detailLabel}>Date:</span>
+                            <span className={styles.detailValue}> {new Date(appointment.date).toDateString()}</span>
                             <p>Service Type: {appointment.service_type}</p>
                             {appointment.size && (
                                        <p> Pet Size: {appointment.size.size} </p>

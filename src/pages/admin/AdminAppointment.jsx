@@ -330,22 +330,7 @@ export const AdminAppointment= () => {
         );
     };
 
-    const renderCancelledAppointmentsSummary = () => {
-        const pendingCount = pendingAppointments?.length || 0;
-        return (
-            <div>
-                <h2>Pending Appointments</h2>
-                {pendingCount > 0 ? (
-                    <div>
-                        <p>{pendingCount} pending requests</p>
-                        <Link to="/pending/appointments">View Pending Appointments</Link>
-                    </div>
-                ) : (
-                    <p>No pending requests</p>
-                )}
-            </div>
-        );
-    };
+  
 
     return (
         <div>

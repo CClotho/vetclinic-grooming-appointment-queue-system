@@ -36,6 +36,25 @@ export const useFetchClientAppointmentsQueue = () => {
 });
 }
 
+
+
+export const useFetchAppointmentHistory = () => {
+ 
+
+  return useQuery({
+      queryKey: ['AppointmentHistory'],
+      queryFn: api.fetchAppointmentHistory,
+      retry: 2,
+      onSuccess: (data) => {
+          console.log("Fetched pending appointments successfully:", data);
+      },
+      onError: (error) => {
+          console.error("Error fetching pending appointments:", error);
+      },
+      // You can add additional options here if needed
+  });
+};
+
 export const useFetchClientAppointmentsToday = () => {
  
   return useQuery({

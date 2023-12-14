@@ -3,8 +3,9 @@ import { profile } from '../../hooks/users/useProfile';
 import { useAuth } from '../../hooks/AuthContext';
 import ClientAppointmentForm from '../../component/Appointment/ClientAppointmentForm';
 import styles from '../../assets/styles/dashboard.module.css'; // Import CSS module
-import { useFetchClientAppointmentsQueue } from '../../hooks/appointment/useClientAppointment';
-
+import { useFetchClientAppointmentsQueue, useFetchAppointmentHistory } from '../../hooks/appointment/useClientAppointment';
+import DatePicker from "react-datepicker";
+import 'react-datepicker/dist/react-datepicker.css';
 export const ClientAppointment= () => {
  
     const [profileDetails, setProfileDetails] = useState(null);
@@ -12,6 +13,13 @@ export const ClientAppointment= () => {
     const {data: appointments, isLoadingAppointments }= useFetchClientAppointmentsQueue();
     const [groomingSearchTerm, setGroomingSearchTerm] = useState('');
     const [treatmentSearchTerm, setTreatmentSearchTerm] = useState('');
+
+    
+    const [filterDate, setFilterDate] = useState('');
+    const [filterServiceType, setFilterServiceType] = useState('');
+    const [appointmentSearchTerm, setAppointmentSearchTerm] = useState('');
+
+    const {data: appointmentList} = useFetchAppointmentHistory();
     
 
     useEffect(() => {
@@ -35,6 +43,14 @@ export const ClientAppointment= () => {
         
        
     }, []);
+
+    
+    
+    const formatDuration = (seconds) => {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        return `${minutes}m ${remainingSeconds}s`;
+    };
 
     
     // Function to render today's appointments queue
@@ -94,6 +110,13 @@ export const ClientAppointment= () => {
         const handleChange = () => {
 
         }
+
+        
+
+        
+    
+      
+          
     
         return (
             <div className={styles.appointments}>
@@ -311,8 +334,132 @@ export const ClientAppointment= () => {
             </div>
         );
     };
-    
+        
+        const renderAppointmentCardList = (appointment)=> {
+            
+            return (
+                <div key={appointment._id} className={styles.appointmentCard}>
+                    <div className={styles.appointmentHeader}>
+                        <h3>Appointment Details</h3>
+                            </div>
+                                
+                            <div className={styles.detailRow}>
+                                <span className={styles.detailLabel}>Client:</span>
+                                <span className={styles.detailValue}>{appointment.client?.first_name} {appointment.client?.last_name}</span>
+                            </div>
+                                
+                            <div className={styles.detailRow}>
+                                <span className={styles.detailLabel}>Pet:</span>
+                                <span className={styles.detailValue}>{appointment.pet?.pet_name}</span>
+                            </div>
+                                
+                            <div className={styles.detailRow}>
+                                <span className={styles.detailLabel}>Date:</span>
+                                <span className={styles.detailValue}>{new Date(appointment.date).toDateString()}</span>
+                            </div>
+                                
+                            <div className={styles.detailRow}>
+                                <span className={styles.detailLabel}>Doctor:</span>
+                                <span className={styles.detailValue}>{appointment.doctor?.first_name}</span>
+                            </div>
+                                
+                            <div className={styles.serviceType}>
+                                <span className={styles.detailLabel}>Service Type:</span>
+                                <span className={styles.detailValue}>{appointment.service_type}</span>
+                            </div>
+                                
+                            <div className={styles.statusInfo}>
+                                <span className={styles.detailLabel}>Status: {appointment.status} </span>
+                            
+                            </div>
+                                
+                            <div className={styles.detailRow}>
+                                <span className={styles.detailLabel}>Queue Position: {appointment.queuePosition} </span>
+        
+                            </div>
+                                
+                            <div className={styles.detailRow}>
+                                <span className={styles.detailLabel}>Arrival Time: {new Date(appointment.arrivalTime).toLocaleTimeString().substring(0,5)} </span>
+                            
+                                    </div>
+                                    
+                                    <div className={styles.detailRow}>
+                                    <span className={styles.detailLabel}>Duration (mins):
+                                    {appointment.duration ? formatDuration(Math.floor(appointment.duration))
+                                    : 
+                                    (appointment.status === 'started' ? 
+                                    formatDuration() : 'Not Started')}
+                                    </span>
+                                    
+                                    </div>
+                                    
+                                {appointment.size && (
+                                    <div className={styles.detailRow}>
+                                        <span className={styles.detailLabel}>Pet Size: {appointment.size?.size} </span>
 
+                                    </div>
+                                )}
+                                    
+                                    <div className={styles.servicesList}>
+                                        <h4 className={styles.detailLabel}>Services:</h4>
+                                        {appointment.services?.map(service => (
+                                            <div className={styles.serviceItem} key={service._id}>
+                                            <div>{service?.name} - {service?.description}</div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                
+            
+                                
+                            </div>               
+            );
+        };
+
+
+        const renderFilteredAppointmentHistory = (appointmentsArray, searchTerm, filterDate, filterServiceType) => {
+            // Here, we'll add a check to make sure that `appointmentsArray` is actually an array.
+            if (!Array.isArray(appointmentsArray)) {
+            return <p className={styles.noAppointments}>No appointments available or still loading.</p>;
+            }
+        
+            // If it's an empty array, you might want to return a message indicating that there are no appointments.
+            if (appointmentsArray.length === 0) {
+            return <p className={styles.noAppointments}>No appointments found.</p>;
+            }
+        
+            // Proceed with the filtering logic only if `appointmentsArray` is indeed an array.
+            const filteredAppointments = appointmentsArray.filter(appointment => {
+            const clientName = `${appointment.client?.first_name} ${appointment.client?.last_name}`.toLowerCase();
+            const petName = appointment.pet?.pet_name?.toLowerCase();
+            const matchesSearchTerm = clientName.includes(searchTerm.toLowerCase()) || petName.includes(searchTerm.toLowerCase());
+            console.log('Current appointment date:', new Date(appointment.date).toDateString());
+                
+            let matchesDate = true;
+            if(filterDate) {
+
+                const appointmentDateString = new Date(appointment?.date).toDateString();
+                const filterDateString = filterDate && filterDate?.toDateString();
+
+                console.log('Appointment date:', appointmentDateString);
+                console.log('Filter date:', filterDateString);
+
+                matchesDate = filterDateString === appointmentDateString;
+
+            }
+            
+                
+            
+
+            const matchesServiceType = filterServiceType ? appointment.service_type === filterServiceType : true;
+            
+            return matchesSearchTerm && matchesDate && matchesServiceType;
+            });
+        
+            // Render the filtered appointments or a message if none are found
+            return filteredAppointments.length > 0 
+            ? filteredAppointments.map(renderAppointmentCardList)
+            : <p className={styles.noAppointments}>No matching appointments found.</p>;
+        };
 
 
     return (
@@ -321,7 +468,50 @@ export const ClientAppointment= () => {
             {renderAppointments()}
             <ClientAppointmentForm/>
 
+            
+            <div className={styles.appointments}>
+            <div className={styles.searchBarContainer}>
+                
+                        <input
+                            className={styles.searchInput}
+                            type="text"
+                            placeholder="Search Appointments..."
+                            onChange={(e) => setAppointmentSearchTerm(e.target.value)}
+                        />
+                        <span className={styles.searchIcon}>
+                        <img src="/src/assets/icons/search.png" alt="Search"/>
+                        </span>
+                    </div>
+                    <h2>Appointment List</h2>
+
+                    {/* Date filter input */}
+                    <div >
+                        <label htmlFor="date" >Select Date:</label>
+                        <DatePicker
+                        selected={filterDate}
+                        onChange={date => {
+                            console.log(date); // Log the selected date
+                            setFilterDate(date)}}
+                        dateFormat="yyyy-MM-dd"
+                    
+                        />
+                    </div>
+                    
+                    {/* Service type filter input */}
+                    <select
+                        value={filterServiceType}
+                        onChange={(e) => setFilterServiceType(e.target.value)}
+                    >
+                        <option value="">All Services</option>
+                        <option value="grooming">Grooming</option>
+                        <option value="treatment">Treatment</option>
+                    </select>
+
+                {renderFilteredAppointmentHistory(appointmentList, appointmentSearchTerm, filterDate, filterServiceType)}
+            </div>
         </div>
+
+        
     ); 
 };
 

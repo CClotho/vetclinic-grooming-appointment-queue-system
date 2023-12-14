@@ -126,6 +126,27 @@
   }
 
 
-  /* Sign up form new style*/
+  /* isAdmin or isClient button styles*/
 
+
+.checkType {
+  background: linear-gradient(to right, #8ccc62, #d4e284);
+  color: white;
+  border: none;
+  outline: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.checkType:hover {
+  background: linear-gradient(to right, #21b04c, #43b978);
+}
+
+.checkType:active {
+  transform: scale(0.98); /* Mimics a button press */
+}
   
