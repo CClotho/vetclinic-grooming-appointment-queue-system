@@ -9,6 +9,7 @@ export const AuthContextProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null)
     const [isAuthenticated, setAuthenticated] = useState(false)
+    
 
     useEffect(() => {
         // Check user authentication status upon initial load

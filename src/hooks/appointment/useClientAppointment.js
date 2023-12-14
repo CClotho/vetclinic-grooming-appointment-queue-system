@@ -25,6 +25,7 @@ export const useFetchClientAppointmentsQueue = () => {
     queryFn: api.fetchAppointmentQueueToday,
     retry: 2,
     refetchOnWindowFocus: true,
+    refetchInterval: 5000, // added this refetch so when resumed and stop timer is clicked client side gets updated
     onSuccess: (data) => {
         console.log("Fetched appointments Queue for today:", data);
     },

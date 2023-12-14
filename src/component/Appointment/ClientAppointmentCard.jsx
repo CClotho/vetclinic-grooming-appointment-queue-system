@@ -7,7 +7,6 @@ const ClientAppointmentCard = ({ appointment }) => {
     const [isEditMode, setIsEditMode] = useState(false);
     const [duration, setDuration] = useState(0);
    
-
     useEffect(() => {
         let interval;
         console.log('Appointment Status:', appointment.status);
@@ -16,13 +15,14 @@ const ClientAppointmentCard = ({ appointment }) => {
          console.log('appointment.startTime:', appointment.startTime);
         console.log('calculated duration state:', duration);
 
-    
+     
         if (appointment.status === 'started' && appointment.startTime) {
             const startTime = new Date(appointment.startTime).getTime();
+            const pausedDuration = appointment.pausedDuration || 0;
     
             interval = setInterval(() => {
                 const now = Date.now();
-                const newDuration = Math.floor((now - startTime) / 1000);
+                const newDuration = Math.floor((now - startTime) / 1000) + pausedDuration;
                 setDuration(newDuration);
                 console.log('Duration Updated:', newDuration);
             }, 1000);
@@ -31,7 +31,9 @@ const ClientAppointmentCard = ({ appointment }) => {
         }
     
         return () => clearInterval(interval);
-    }, [appointment.status, appointment.startTime, appointment.isTracking]);
+    }, [appointment.status, appointment.startTime, appointment.isTracking,appointment.pausedDuration]);
+    
+    
     
 
     const appointmentUpdateSchema = Yup.object().shape({
@@ -129,9 +131,9 @@ const ClientAppointmentCard = ({ appointment }) => {
                     <div className={styles.detailRow}>
                         <span className={styles.detailLabel}>Duration:</span>
                         <span className={styles.detailValue}>
-                            {appointment.status === 'started' 
-                                ? formatDuration(duration)
-                                : formatDuration(appointment.duration)}
+                        {appointment.status === 'started'
+                                ? formatDuration(Math.floor(duration))
+                                : formatDuration(Math.floor(appointment.duration))}
                         </span>
                     </div>
 

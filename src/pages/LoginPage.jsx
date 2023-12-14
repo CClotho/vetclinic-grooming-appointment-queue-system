@@ -7,6 +7,8 @@ import logo from './../assets/logo/Manaog.jpg';
 export const LoginPage = () => {
 
     const {isAuthenticated} = useAuth();
+    const {isAdmin} = useState(false);
+    const {isClient} = useState(false)
 
 
     

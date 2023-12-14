@@ -74,6 +74,7 @@ const AppointmentCard = ({ appointment, onUpdate, onDelete }) => {
     };
 
     
+    
 
     const handleStop = () => {
         
