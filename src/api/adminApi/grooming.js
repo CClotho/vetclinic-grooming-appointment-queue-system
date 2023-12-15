@@ -18,3 +18,13 @@ export const editGrooming = async ( updatedData) => {
     console.log("Error in editing grooming service:", err);
    }
 };
+
+export const deleteGrooming = async (id) => {
+  try {
+    const response = await axios.post(`http://localhost:3000/admin/service/delete/grooming`, {id});
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+

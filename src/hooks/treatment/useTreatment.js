@@ -48,5 +48,22 @@ export const useEditTreatment = () => {
 };
 
 
+export const useDeleteTreatment = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: adminApi.deleteTreatment,
+    onSuccess: (data) => {
+      console.log("Treatment deleted successfully:", data);
+      queryClient.invalidateQueries(['treatments']);
+      
+    },
+    onError: (error) => {
+      console.error("Error deleting pet:", error);
+    }
+  });
+};
+
+
+
 
 // ... other hooks for fetching, updating, deleting treatments if needed ...

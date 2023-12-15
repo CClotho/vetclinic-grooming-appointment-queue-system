@@ -14,4 +14,12 @@ export const editTreatment = async ( updatedData) => {
   return response.data;
 };
 
-// ... other CRUD operations for treatments if needed ...
+
+export const deleteTreatment = async (id) => {
+  try {
+    const response = await axios.post(`http://localhost:3000/admin/service/delete/treatment`, {id});
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};

@@ -1,4 +1,3 @@
-
 import { useDeletePet } from '../../hooks/pet/useAdminPets';
 
 const DeletePetButton = ({ petId}) => {

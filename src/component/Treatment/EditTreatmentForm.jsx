@@ -2,9 +2,11 @@ import { useFormik } from 'formik';
 import { useEditTreatment } from '../../hooks/treatment/useTreatment';
 import { treatmentValidationSchema } from './AddTreatmentForm';
 import styles from '../../assets/styles/modal.module.css'; // Assuming you have CSS module
+import DeleteTreatmentButton from './DeleteTreatment';
 const EditTreatmentForm = ({ initialData, onSubmitSuccess }) => {
   const editTreatmentMutation = useEditTreatment();
 
+  
   
   const formik = useFormik({
     initialValues: {
@@ -62,6 +64,8 @@ const EditTreatmentForm = ({ initialData, onSubmitSuccess }) => {
                 </label>
             </div>
       <button type="submit" className={styles.updateTreatmentBtn}>Update Treatment</button>
+      <DeleteTreatmentButton id={initialData._id}/>
+      
     </form>
   );
 };

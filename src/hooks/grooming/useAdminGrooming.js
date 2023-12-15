@@ -40,3 +40,20 @@ export const useEditGrooming = () => {
     }
   });
 };
+
+
+export const useDeleteGrooming = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: adminApi.deleteGrooming,
+    onSuccess: (data) => {
+      console.log("Grooming service deleted successfully:", data);
+      queryClient.invalidateQueries(['grooming']);
+      
+    },
+    onError: (error) => {
+      console.error("Error deleting pet:", error);
+    }
+  });
+};
+

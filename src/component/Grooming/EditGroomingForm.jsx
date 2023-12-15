@@ -2,6 +2,7 @@ import { useFormik } from 'formik';
 import { useEditGrooming } from '../../hooks/grooming/useAdminGrooming';
 import { treatmentValidationSchema } from '../Treatment/AddTreatmentForm';
 import styles from '../../assets/styles/modal.module.css'; 
+import DeleteGroomingButton from './DeleteGrooming';
 const EditGroomingForm = ({ initialData, onSubmitSuccess }) => {
   const editGrooming = useEditGrooming();
 
@@ -63,6 +64,8 @@ const EditGroomingForm = ({ initialData, onSubmitSuccess }) => {
                 </label>
             </div>
       <button type="submit" className={styles.updateTreatmentBtn}>Update Service</button>
+      <DeleteGroomingButton id={initialData._id}/>
+      
     </form>
   );
 };
