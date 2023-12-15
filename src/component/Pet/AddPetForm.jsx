@@ -7,7 +7,7 @@ import { useFetchClientsInfo } from '../../hooks/clients/useAdminClients';
 
 const validationSchema = Yup.object().shape({
   pet_name: Yup.string().required('Pet name is required'),
-  type: Yup.string().oneOf(['dog', 'cat', 'rabbit', 'bird', 'parrot', 'hamster'], 'Invalid type').required('Pet type is required').required(),
+  type: Yup.string().oneOf(['Dog', 'Cat', 'Rabbit', 'Bird', 'Parrot', 'Hamster'], 'Invalid type').required('Pet type is required').required(),
   breed: Yup.string().required('Breed is required'),
   gender: Yup.string().oneOf(['Male', 'Female'], 'Select a valid gender').required('Gender is required'),
   owner: Yup.string().required('Owner ID is required'),

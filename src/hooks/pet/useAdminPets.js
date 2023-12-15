@@ -2,13 +2,13 @@ import { useMutation, useQuery , useQueryClient } from '@tanstack/react-query'; 
 import * as api from '../../api/adminApi/pet';
 
 export const useCreatePet = () => {
-  
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: api.createPet,
     retry: 2,
     onSuccess: (data) => {
       console.log("Pet created successfully:", data);
-      // Invalidate and refetch any related queries if needed
+      queryClient.invalidateQueries(['clientInformation'])
       
     },
     onError: (error) => {

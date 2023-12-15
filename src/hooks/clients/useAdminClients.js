@@ -5,7 +5,7 @@ import * as api from '../../api/adminApi/clients';
 // for form in creating an appointment
 
 export const useFetchClientsInfo= () => {
- 
+  
 
     return useQuery({
         queryKey: ['clientInformation'],

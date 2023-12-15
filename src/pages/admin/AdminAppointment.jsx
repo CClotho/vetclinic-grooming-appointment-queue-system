@@ -21,13 +21,14 @@ export const AdminAppointment= () => {
     const [treatmentSearchTerm, setTreatmentSearchTerm] = useState('');
     const [selectedAppointment, setSelectedAppointment] = useState(null);
     const updateAppointment= useUpdateAppointmentForm();
-
+    
+    const [filterStatus, setFilterStatus] = useState('');
     const [filterDate, setFilterDate] = useState('');
     const [filterServiceType, setFilterServiceType] = useState('');
     const [appointmentSearchTerm, setAppointmentSearchTerm] = useState('');
     const {data: appointmentList} = useFetchAppointmentList();
   
-    console.log(appointmentList)
+    console.log("Appointment List", appointmentList)
 
 
    
@@ -211,7 +212,7 @@ export const AdminAppointment= () => {
                                 
                                 <div className={styles.detailRow}>
                                 <span className={styles.detailLabel}>Duration (mins):
-                                {appointment.duration ? formatDuration(appointment.duration) 
+                                {appointment.duration ? formatDuration(Math.floor(appointment.duration)) 
                                 : 
                                 (appointment.status === 'started' ? 
                                 formatDuration() : 'Not Started')}
@@ -252,8 +253,8 @@ export const AdminAppointment= () => {
         // Filtering logic combined within the same function
         const filteredAppointments = searchTerm
             ? appointmentsArray.filter(appointment => {
-                const clientName = `${appointment.client?.first_name} ${appointment.client?.last_name}`.toLowerCase();
-                const petName = appointment.pet?.pet_name.toLowerCase();
+                const clientName = `${appointment?.client?.first_name} ${appointment?.client?.last_name}`.toLowerCase();
+                const petName = appointment?.pet?.pet_name.toLowerCase();
                 return clientName.includes(searchTerm.toLowerCase()) || petName.includes(searchTerm.toLowerCase());
             })
             : appointmentsArray;
@@ -274,12 +275,19 @@ export const AdminAppointment= () => {
         if (appointmentsArray.length === 0) {
           return <p className={styles.noAppointments}>No appointments found.</p>;
         }
+
+        
       
         // Proceed with the filtering logic only if `appointmentsArray` is indeed an array.
         const filteredAppointments = appointmentsArray.filter(appointment => {
-          const clientName = `${appointment.client?.first_name} ${appointment.client?.last_name}`.toLowerCase();
-          const petName = appointment.pet?.pet_name?.toLowerCase();
-          const matchesSearchTerm = clientName.includes(searchTerm.toLowerCase()) || petName.includes(searchTerm.toLowerCase());
+            if (!appointment.client || !appointment.pet) {
+                return false; // Skip this appointment if client or pet data is missing
+            }
+          
+          const clientName = `${appointment?.client?.first_name} ${appointment?.client?.last_name}`.toLowerCase();
+          const petName = appointment?.pet?.pet_name?.toLowerCase();
+          const matchesSearchTerm = clientName?.includes(searchTerm.toLowerCase()) || petName.includes(searchTerm.toLowerCase());
+          const checkStatus = 
           console.log('Current appointment date:', new Date(appointment.date).toDateString());
             
           let matchesDate = true;
@@ -299,8 +307,9 @@ export const AdminAppointment= () => {
            
 
           const matchesServiceType = filterServiceType ? appointment.service_type === filterServiceType : true;
+          const matchesStatus = filterStatus ? appointment.status === filterStatus : true;
          
-          return matchesSearchTerm && matchesDate && matchesServiceType;
+          return matchesSearchTerm && matchesDate && matchesServiceType&&  matchesStatus;
         });
       
         // Render the filtered appointments or a message if none are found
@@ -401,6 +410,23 @@ export const AdminAppointment= () => {
                         dateFormat="yyyy-MM-dd"
                     
                         />
+                    </div>
+
+                    <div>
+                        <select
+                            value={filterStatus}
+                            onChange={(e) => setFilterStatus(e.target.value)}
+                            >
+                            <option value="">All Statuses</option>
+                            <option value="approved">Approved</option>
+                            <option value="pending">Pending</option>
+                            <option value="finished">Finished</option>
+                            <option value="noShow">No Show</option>
+                            <option value="reschedule">Reschedule</option>
+                            <option value="paused">Paused</option>
+                            <option value="declined">Declined</option>
+                            
+                        </select>
                     </div>
                     
                     {/* Service type filter input */}
