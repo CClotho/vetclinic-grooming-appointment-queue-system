@@ -10,6 +10,7 @@ export const useFetchClientsInfo= () => {
     return useQuery({
         queryKey: ['clientInformation'],
         queryFn: api.fetchClientsInfo,
+        
         retry: 2,
         onSuccess: (data) => {
             console.log("Fetched clients information:", data);
@@ -22,12 +23,14 @@ export const useFetchClientsInfo= () => {
   };
 
   export const useGetClientById = (clientId) => {
+    const queryClient = useQueryClient()
     return useQuery({
       queryKey: ['clientInformation', clientId],
       queryFn: () => api.getClientIds(clientId),
       retry: false,
       onSuccess: (data) => {
         console.log("Successfully fetched client details:", data);
+        queryClient.invalidateQueries(['clientInformation'])
       },
       onError: (error) => {
         console.error("Error fetching client details", error);

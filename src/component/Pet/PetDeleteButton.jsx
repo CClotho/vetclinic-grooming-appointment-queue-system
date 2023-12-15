@@ -1,17 +1,14 @@
-import { useDeletePet } from '../../hooks/usePets';
 
-const DeletePetButton = ({ petId, onSuccess, onError }) => {
+import { useDeletePet } from '../../hooks/pet/useAdminPets';
+
+const DeletePetButton = ({ petId}) => {
   const deletePetMutation = useDeletePet();
 
+  console.log("Pet id frm delete btn", petId)
   const handleDelete = () => {
-    deletePetMutation.mutate(petId, {
-      onSuccess: () => {
-        if (onSuccess) onSuccess();
-      },
-      onError: (error) => {
-        if (onError) onError(error);
-      }
-    });
+    if (window.confirm("Are you sure you want to delete this pet?")) {
+      deletePetMutation.mutate(petId);
+    }
   };
 
   return <button onClick={handleDelete}>Delete Pet</button>;

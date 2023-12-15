@@ -2,15 +2,21 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useGetClientById } from "../../hooks/clients/useAdminClients";
 import styles from '../../assets/styles/style.module.css'; // Import CSS module
+import DeletePetButton from "../Pet/PetDeleteButton";
+import EditPetForm from "../Pet/EditPetForm";
 
 export const ClientProfile = () => {
   const { clientId } = useParams();
   const [selectedPet, setSelectedPet] = useState(null);
   const { data: client, isLoading, isError, error } = useGetClientById(clientId);
+  const [isEditingPet, setIsEditingPet] = useState(false);
+
+ 
 
   useEffect(() => {
     // Reset selectedPet when clientId changes
     setSelectedPet(null);
+    setIsEditingPet(false); 
   }, [clientId]);
 
   if (isLoading) {
@@ -32,6 +38,8 @@ export const ClientProfile = () => {
     } else {
       setSelectedPet(pet);
     }
+
+    setIsEditingPet(false);
   };
 
   return (
@@ -54,12 +62,25 @@ export const ClientProfile = () => {
             ))}
         </ul>
           {selectedPet && (
-            <div className={styles.selectedPetDetails}>
-              <h4>{selectedPet.pet_name}</h4>
-              <p><strong>Breed:</strong> {selectedPet.breed}</p>
-              <p><strong>Gender:</strong> {selectedPet.gender}</p>
-              {/* Add more details if needed */}
-            </div>
+            <>
+            {isEditingPet ? (
+                // Edit Pet Form
+                <EditPetForm pet={selectedPet} clientId={clientId} onClose={handlePetClick} />
+              ) : (
+              
+                <div className={styles.selectedPetDetails}>
+                  <h4>{selectedPet.pet_name}</h4>
+                  <p><strong>Type:</strong> {selectedPet.type}</p>
+                  <p><strong>Breed:</strong> {selectedPet.breed}</p>
+                  <p><strong>Gender:</strong> {selectedPet.gender}</p>
+                  
+             
+                  <div className={styles.petActions}>
+                    <button onClick={() => setIsEditingPet(true)}>Edit Pet</button>
+                  </div>
+                </div>
+              )}
+          </> 
           )}
         </div>
       )}

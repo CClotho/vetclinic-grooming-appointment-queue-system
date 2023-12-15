@@ -87,12 +87,12 @@ const AddPetForm = () => {
               className={styles.Petselect}
               >
               <option value="" label="Select pet type" disabled/>
-              <option value="dog" label="Dog" />
-              <option value="cat" label="Cat" />
-              <option value="rabbit" label="Rabbit" />
-              <option value="bird" label="Bird" />
-              <option value="parrot" label="Parrot" />
-              <option value="hamster" label="Hamster" />
+              <option value="Dog" label="Dog" />
+              <option value="Cat" label="Cat" />
+              <option value="Rabbit" label="Rabbit" />
+              <option value="Bird" label="Bird" />
+              <option value="Parrot" label="Parrot" />
+              <option value="Hamster" label="Hamster" />
           </select>
           {formik.touched.type && formik.errors.type ? <div className={styles.Peterror}>{formik.errors.type}</div> : null}
 
