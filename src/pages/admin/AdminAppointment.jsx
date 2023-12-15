@@ -287,7 +287,7 @@ export const AdminAppointment= () => {
           const clientName = `${appointment?.client?.first_name} ${appointment?.client?.last_name}`.toLowerCase();
           const petName = appointment?.pet?.pet_name?.toLowerCase();
           const matchesSearchTerm = clientName?.includes(searchTerm.toLowerCase()) || petName.includes(searchTerm.toLowerCase());
-          const checkStatus = 
+          
           console.log('Current appointment date:', new Date(appointment.date).toDateString());
             
           let matchesDate = true;

@@ -14,13 +14,13 @@ export const ClientAppointment= () => {
     const [groomingSearchTerm, setGroomingSearchTerm] = useState('');
     const [treatmentSearchTerm, setTreatmentSearchTerm] = useState('');
 
-    
+    const [filterStatus, setFilterStatus] = useState('');
     const [filterDate, setFilterDate] = useState('');
     const [filterServiceType, setFilterServiceType] = useState('');
     const [appointmentSearchTerm, setAppointmentSearchTerm] = useState('');
 
     const {data: appointmentList} = useFetchAppointmentHistory();
-    
+    console.log("Appointment List", appointmentList)
 
     useEffect(() => {
         const fetchProfileDetails = async () => {
@@ -171,17 +171,13 @@ export const ClientAppointment= () => {
                         <span className={styles.detailLabel}>Service Type:</span>
                         <span className={styles.detailValue}>{appointment.service_type}</span>
                         </div>
+
                         
                         <div className={styles.statusInfo}>
-                        <span className={styles.detailLabel}>Status:</span>
-                        <input 
-                            className={styles.statusInput}
-                            type="text" 
-                            value={appointment.status} 
-                            onChange={handleChange}
+                            <span className={styles.detailLabel}>Status:</span>
+                            <span className={styles.detailValue}>{appointment.status}</span>
                            
-                        />
-                        </div>
+                            </div>
                         
                         <div className={styles.detailRow}>
                         <span className={styles.detailLabel}>Queue Position: {appointment.queuePosition}</span>
@@ -199,10 +195,15 @@ export const ClientAppointment= () => {
                         </div>
                         
                         <div className={styles.detailRow}>
-                        <span className={styles.detailLabel}>Duration (mins): {appointment.duration}</span>
-                       
-                       
-                        </div>
+                                <span className={styles.detailLabel}>Duration (mins):
+                                {appointment.duration ? formatDuration(Math.floor(appointment.duration))
+                                : 
+                                (appointment.status === 'started' ? 
+                                formatDuration() : 'Not Started')}
+                                </span>
+                                
+                                </div>
+                                
 
                           
                         {appointment.size && (
@@ -429,11 +430,18 @@ export const ClientAppointment= () => {
         
             // Proceed with the filtering logic only if `appointmentsArray` is indeed an array.
             const filteredAppointments = appointmentsArray.filter(appointment => {
-            const clientName = `${appointment.client?.first_name} ${appointment.client?.last_name}`.toLowerCase();
-            const petName = appointment.pet?.pet_name?.toLowerCase();
-            const matchesSearchTerm = clientName.includes(searchTerm.toLowerCase()) || petName.includes(searchTerm.toLowerCase());
+            
+                if (!appointment.pet) {
+                    return false; // Skip this appointment if client or pet data is missing
+                }
+            
+            
+            const petName = appointment?.pet?.pet_name?.toLowerCase();
+            const matchesPetName = searchTerm ? petName.includes(searchTerm.toLowerCase()) : true;
+
             console.log('Current appointment date:', new Date(appointment.date).toDateString());
                 
+
             let matchesDate = true;
             if(filterDate) {
 
@@ -449,10 +457,13 @@ export const ClientAppointment= () => {
             
                 
             
-
+            const matchesStatus = filterStatus ? appointment.status === filterStatus : true;
             const matchesServiceType = filterServiceType ? appointment.service_type === filterServiceType : true;
-            
-            return matchesSearchTerm && matchesDate && matchesServiceType;
+           
+        
+
+
+            return matchesPetName && matchesDate && matchesServiceType && matchesStatus;
             });
         
             // Render the filtered appointments or a message if none are found
@@ -483,6 +494,23 @@ export const ClientAppointment= () => {
                         </span>
                     </div>
                     <h2>Appointment List</h2>
+
+                    <div>
+                        <select
+                            value={filterStatus}
+                            onChange={(e) => setFilterStatus(e.target.value)}
+                            >
+                            <option value="">All Statuses</option>
+                            <option value="approved">Approved</option>
+                            <option value="pending">Pending</option>
+                            <option value="finished">Finished</option>
+                            <option value="noShow">No Show</option>
+                            <option value="reschedule">Reschedule</option>
+                            <option value="paused">Paused</option>
+                            <option value="declined">Declined</option>
+                            
+                        </select>
+                    </div>
 
                     {/* Date filter input */}
                     <div >
