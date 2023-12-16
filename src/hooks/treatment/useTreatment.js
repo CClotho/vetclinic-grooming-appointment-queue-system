@@ -39,7 +39,7 @@ export const useEditTreatment = () => {
     onSuccess: (data) => {
       console.log("Treatment edited successfully:", data);
       // Invalidate and refetch any related queries if needed
-      queryClient.invalidateQueries('treatments');
+      queryClient.invalidateQueries(['treatments']);
     },
     onError: (error) => {
       console.error("Error editing treatment:", error);

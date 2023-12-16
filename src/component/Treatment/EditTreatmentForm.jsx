@@ -64,7 +64,7 @@ const EditTreatmentForm = ({ initialData, onSubmitSuccess }) => {
                 </label>
             </div>
       <button type="submit" className={styles.updateTreatmentBtn}>Update Treatment</button>
-      <DeleteTreatmentButton id={initialData._id}/>
+      <DeleteTreatmentButton id={initialData._id} onDeleteSuccess={onSubmitSuccess} />
       
     </form>
   );
