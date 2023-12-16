@@ -74,6 +74,23 @@ export const useFetchClientsInfo= () => {
   };
   
   
+  export const useDeleteClient= () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: api.deleteClient,
+      onSuccess: (data) => {
+        console.log("Successfully edited client data:", data);
+        queryClient.invalidateQueries(['clientInformation']); // updates real time lol.
+  
+ 
+      },
+      onError: (error) => {
+        console.error("Error editing client's data:", error);
+    
+      }
+      
+    });
+  };
 
 
 

@@ -6,6 +6,7 @@ import DeletePetButton from "../Pet/PetDeleteButton";
 import EditPetForm from "../Pet/EditPetForm";
 import ClientEditForm from "./ClientEditForm";
 import ResetPasswordForm from "./ResetPassword";
+import DeleteClientButton from "./DeleteClient";
 
 export const ClientProfile = () => {
   const { clientId } = useParams();
@@ -24,7 +25,7 @@ export const ClientProfile = () => {
     setIsEditingPet(false);
     setEditPassword(false);
     setEditingClient(false); 
-  }, [clientId]);
+  }, [client]);
 
   if (isLoading) {
     return <div className={styles.loading}>Loading...</div>;
@@ -60,6 +61,8 @@ export const ClientProfile = () => {
       {isEditingClient && client ? (
         <div>
           <ClientEditForm initialData={client} onClose={setEditingClient} />
+          <DeleteClientButton id={client._id}/>
+          <br/>
          {!isEditPassword &&  <button className={styles.updateBtn}onClick={() => setEditPassword(true)}> Reset Password</button>}
          {isEditPassword &&  <ResetPasswordForm onClose={()=> setEditPassword(false)} id={client.user}/>}
           <br/>

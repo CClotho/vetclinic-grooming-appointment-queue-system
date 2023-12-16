@@ -29,4 +29,11 @@ export const resetClientPassword= async (clientData) => {
   return response.data;
 }
 
+export const deleteClient = async (id) => {
+  const response = await axios.post(`http://localhost:3000/admin/clients/client/delete`, { id });
+  return response.data;
+}
+
+
+  
   

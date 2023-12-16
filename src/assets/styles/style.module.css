@@ -316,6 +316,7 @@ body {
 }
 
 .clientCloseBtn {
+  margin: 0.5rem;
   width: 80px;
   height: 40px;
   border-radius: 50px;
@@ -363,6 +364,8 @@ body {
 .toggleEditButton:focus {
   background-color: #ec971f; /* A darker orange on hover/focus */
 }
+
+
 
 
 
