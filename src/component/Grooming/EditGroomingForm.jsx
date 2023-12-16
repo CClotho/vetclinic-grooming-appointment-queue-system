@@ -3,7 +3,7 @@ import { useEditGrooming } from '../../hooks/grooming/useAdminGrooming';
 import { treatmentValidationSchema } from '../Treatment/AddTreatmentForm';
 import styles from '../../assets/styles/modal.module.css'; 
 import DeleteGroomingButton from './DeleteGrooming';
-const EditGroomingForm = ({ initialData, onSubmitSuccess }) => {
+const EditGroomingForm = ({ initialData, onSubmitSuccess, onClose }) => {
   const editGrooming = useEditGrooming();
 
  
@@ -18,6 +18,7 @@ const EditGroomingForm = ({ initialData, onSubmitSuccess }) => {
     },
     validationSchema: treatmentValidationSchema,
     onSubmit: (values) => {
+        
         editGrooming.mutate(values, {
           onSuccess: () => {
             if (onSubmitSuccess) onSubmitSuccess();
@@ -64,7 +65,7 @@ const EditGroomingForm = ({ initialData, onSubmitSuccess }) => {
                 </label>
             </div>
       <button type="submit" className={styles.updateTreatmentBtn}>Update Service</button>
-      <DeleteGroomingButton id={initialData._id}/>
+      <DeleteGroomingButton  id={initialData._id}/>
       
     </form>
   );

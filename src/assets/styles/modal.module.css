@@ -52,7 +52,7 @@
   /* style.module.css */
 
 .textInput {
-  width: 100%;
+  width: min-content;
   padding: 0.5rem;
   margin-bottom: 1rem;
   border: 1px solid #ccc;
@@ -61,7 +61,7 @@
 }
 
 .numberInput {
-  width: 100%;
+  width: min-content;
   padding: 0.5rem;
   margin-bottom: 1rem;
   border: 1px solid #ccc;
@@ -70,7 +70,7 @@
 }
 
 .textArea {
-  width: 100%;
+  width: 85%;
   padding: 0.5rem;
   margin-bottom: 1rem;
   border: 1px solid #ccc;

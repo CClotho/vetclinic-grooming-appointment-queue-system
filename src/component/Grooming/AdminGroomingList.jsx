@@ -22,6 +22,15 @@ export const GroomingList = ({ showEdit }) => {
 
   if (isLoading) return <div>Loading treatments...</div>;
   if (isError) return <div>Error loading treatments.</div>;
+
+  const handleEditClick = groomingId => {
+    // If the same service is clicked again, close the editor
+    if (editingGroomingId === groomingId) {
+      setEditingGroomingId(null);
+    } else {
+      setEditingGroomingId(groomingId);
+    }
+  };
   return (
     <div className={styles.treatmentsGrid}>
 
@@ -35,25 +44,24 @@ export const GroomingList = ({ showEdit }) => {
       <h2>Grooming Services</h2>
       <ol className={styles.treatmentContainer}>
         {filteredGrooming?.map(grooming => (
-          <li key={grooming ._id} className={styles.treatmentItem}>
-          <div className={styles.treatmentName}>
-            {grooming .name}
-          </div>
-          <div className={styles.treatmentPrice}>
-            Price: {grooming .price}
-          </div>
-          <div className={styles.treatmentPrice}>
-            Availability:{grooming.availability ? <span className={styles.treatmentAvail}> Available </span> : <span className={styles.treatmentNotAvail}> Not Available</span>}
-          </div>
-          <p className={styles.treatmentDescription}>{grooming .description}</p>
-            {showEdit && (
+          <li key={grooming._id} className={styles.treatmentItem}>
+            {editingGroomingId === grooming._id ? (
+              // Show Edit Form
+              <EditGroomingForm 
+                initialData={grooming} 
+                onSubmitSuccess={() => setEditingGroomingId(null)}
+              />
+            ) : (
+              // Show Grooming Details
               <>
-                <button className={styles.editStyleBtn}onClick={() => setEditingGroomingId(grooming._id)}>Edit</button>
-                {editingGroomingId === grooming ._id && (
-                  <EditGroomingForm 
-                    initialData={grooming } 
-                    onSubmitSuccess={() => setEditingGroomingId(null)} 
-                  />
+                <div className={styles.treatmentName}>{grooming.name}</div>
+                <div className={styles.treatmentPrice}>Price: {grooming.price}</div>
+                <div className={styles.treatmentPrice}>
+                  Availability: {grooming.availability ? <span className={styles.treatmentAvail}> Available </span> : <span className={styles.treatmentNotAvail}> Not Available</span>}
+                </div>
+                <p className={styles.treatmentDescription}>{grooming.description}</p>
+                {showEdit && (
+                  <button className={styles.editStyleBtn} onClick={() => handleEditClick(grooming._id)}>Edit</button>
                 )}
               </>
             )}
