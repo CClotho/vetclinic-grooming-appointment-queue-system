@@ -37,7 +37,7 @@ export const AdminSidebar = () => {
                         <NavLink to="/service/grooming" className={styles.styledLink}> <img src="/src/assets/icons/grooming.png" alt="grooming-icon"/> <span>Grooming</span></NavLink>
                         <NavLink to="/clients" className={styles.styledLink}> <img src="/src/assets/icons/people.png" alt="clients-icon"/><span>Clients</span></NavLink>
                         <NavLink to="/info" className={styles.styledLink}> <img src="/src/assets/icons/info.png" alt="info-icon"/><span>VetClinic Info</span></NavLink>
-                        <NavLink to="/setting" className={styles.styledLink}> <img src="/src/assets/icons/settings.png" alt="setting-icon"/><span>Settings</span></NavLink>
+                        {/*<NavLink to="/setting" className={styles.styledLink}> <img src="/src/assets/icons/settings.png" alt="setting-icon"/><span>Settings</span></NavLink> */}
                         
                         <div className={styles.styledLink}>
                         <LogoutButton />

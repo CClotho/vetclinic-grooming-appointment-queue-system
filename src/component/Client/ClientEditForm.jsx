@@ -18,12 +18,13 @@ const ClientEditSchema = Yup.object({
 
 const ClientEditForm = ({ initialData, onClose}) => {
     const editClientMutation = useEditClientInfo();
-    
+ 
     const formik = useFormik({
         initialValues:{
             _id: initialData._id,
             first_name: initialData?.first_name || '',
             last_name: initialData?.last_name || '',
+            username: initialData?.user.username || '',
             age: initialData?.age || '',
             phone_number: initialData?.phone_number || '',
             email: initialData?.email || '',
