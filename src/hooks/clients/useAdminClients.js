@@ -37,7 +37,45 @@ export const useFetchClientsInfo= () => {
       }
     });
   };
+
+  export const useEditClientInfo = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: api.editClientInformation,
+      onSuccess: (data) => {
+        console.log("Successfully edited client data:", data);
+        queryClient.invalidateQueries(['clientInformation']); // updates real time lol.
   
+ 
+      },
+      onError: (error) => {
+        console.error("Error editing client's data:", error);
+    
+      }
+      
+    });
+  };
+
+  
+  export const useResetClientPassword= () => {
+    return useMutation({
+      mutationFn: api.resetClientPassword,
+      onSuccess: (data) => {
+        console.log("Successfully reset password:", data);
+       
+ 
+      },
+      onError: (error) => {
+        console.error("Error resetting password", error);
+    
+      }
+      
+    });
+  };
+  
+  
+
+
 
 
 /*   

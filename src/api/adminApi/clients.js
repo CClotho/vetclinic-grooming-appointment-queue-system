@@ -18,3 +18,15 @@ export const getClientIds= async (clientId) => {
     return response.data;
   }
   
+  // edit client's information by id
+export const editClientInformation= async (clientData) => {
+    const response = await axios.put(`http://localhost:3000/admin/clients/client/edit`, clientData);
+    return response.data;
+}
+
+export const resetClientPassword= async (clientData) => {
+  const response = await axios.put(`http://localhost:3000/admin/clients/client/reset-password`, clientData);
+  return response.data;
+}
+
+  

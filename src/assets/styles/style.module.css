@@ -301,6 +301,33 @@ body {
 }
 
 
+.updateBtn {
+  margin-top: 1rem;
+    width: 160px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: #92DB95;
+    font-family: 'MarkoOne';
+    font-weight: 700;
+    font-size: .90rem;
+    border: 1px solid white;
+
+    cursor: pointer;
+}
+
+.clientCloseBtn {
+  width: 80px;
+  height: 40px;
+  border-radius: 50px;
+  background-color: #92DB95;
+  font-family: 'MarkoOne';
+  font-weight: 700;
+  font-size: .90rem;
+  border: 1px solid white;
+
+  cursor: pointer;
+  
+}
 /* Admin Treatment Page design for 2 buttons */
 
 

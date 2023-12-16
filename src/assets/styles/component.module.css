@@ -35,7 +35,7 @@
   
   .input,
   .select {
-    width: 100%;
+    width: min-content;
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
@@ -80,6 +80,9 @@
     }
   }
   
+  .updateBtn {
+
+  }
   /* Additional styles for react-datepicker */
   .react-datepicker-wrapper {
     width: 100%;
