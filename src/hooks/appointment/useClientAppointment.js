@@ -8,9 +8,8 @@ export const useRequestAppointment = () => {
     retry: 2,
     onSuccess: (data) => {
       console.log("Appointment created successfully:", data);
-      // Invalidate and refetch any related queries if needed
-      // For example, if you have a list of appointments:
-       queryClient.invalidateQueries('appointments');
+      
+       queryClient.invalidateQueries(['appointments']);
     },
     onError: (error) => {
       console.error("Error creating appointment:", error);
@@ -75,15 +74,15 @@ export const useFetchClientAppointmentsToday = () => {
 }
 
 export const useFetchClientPendingAppointments = () => {
- 
 
   return useQuery({
       queryKey: ['pendingAppointments'],
       queryFn: api.fetchPendingAppointments,
       retry: 2,
-      refetchOnWindowFocus: true,
+      refetchInterval: 5000,
       onSuccess: (data) => {
           console.log("Fetched pending appointments successfully:", data);
+        
       },
       onError: (error) => {
           console.error("Error fetching pending appointments:", error);

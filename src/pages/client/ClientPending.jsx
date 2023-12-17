@@ -3,6 +3,7 @@
 import { useFetchClientPendingAppointments} from '../../hooks/appointment/useClientAppointment';
 import styles from '../../assets/styles/pending.module.css'; // Import CSS module
 import { useAuth } from '../../hooks/AuthContext';
+import { useEffect } from 'react';
 
 
 const ClientPending = () => {
@@ -12,6 +13,11 @@ const ClientPending = () => {
     const {user} = useAuth();
     
 
+    useEffect(() => {
+        
+        
+       
+    }, [pendingClientAppointments]);
 
     const handleUpdateStatus = (appointmentId, newStatus) => {
         console.log({appointmentId, newStatus})

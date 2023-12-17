@@ -8,9 +8,9 @@ export const useCreateAppointment = () => {
     mutationFn: api.createAppointment,
     onSuccess: (data) => {
       console.log("Appointment created successfully:", data);
-      // Invalidate and refetch any related queries if needed
-      // For example, if you have a list of appointments:
-       queryClient.invalidateQueries('appointments');
+     
+       queryClient.invalidateQueries(['appointments']); 
+       queryClient.invalidateQueries(['pendingAppointments']);
     },
     onError: (error) => {
       console.error("Error creating appointment:", error);
@@ -25,9 +25,9 @@ export const useUpdateAppointmentForm = () => {
   mutationFn: api.updateAppointmentForm,
   onSuccess: ( {id, data}) => {
     console.log("Appointment updated successfully:", { id, data});
-    // Invalidate and refetch any related queries if needed
-    // For example, if you have a list of appointments:
-     queryClient.invalidateQueries('appointments');
+   
+     queryClient.invalidateQueries(['appointments']);
+     queryClient.invalidateQueries(['pendingAppointments']);
   },
   onError: (error) => {
     console.error("Error updating appointment:", error);
@@ -74,7 +74,7 @@ export const useFetchPendingAppointments = () => {
       queryKey: ['pendingAppointments'],
       queryFn: api.fetchPendingAppointments,
       retry: 2,
-      refetchOnWindowFocus: true,
+      refetchInterval: 5000,
       onSuccess: (data) => {
           console.log("Fetched pending appointments successfully:", data);
       },
@@ -94,7 +94,8 @@ export const useFetchAppointmentsQueueToday = () => {
       queryKey: ['queueAppointmentsToday'],
       queryFn: api.fetchAppointmentsQueueToday,
       retry: 2,
-      refetchOnWindowFocus: true,
+      //refetchOnWindowFocus: true,
+      refetchIntervalInBackground: true,
       onSuccess: (data) => {
           console.log("Fetched pending appointments successfully:", data);
       },
