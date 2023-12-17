@@ -7,16 +7,17 @@ export const useGetProfile = () => {
  
 
     return useQuery({
-        queryKey: ['clientProfile'],
+        queryKey: ['clientInformation'],
         queryFn: api.getProfile,
         retry: 2,
+       refetchIntervalInBackground: true,
         onSuccess: (data) => {
             console.log("Fetched profile details successfully:", data);
         },
         onError: (error) => {
             console.error("Error fetching profile details:", error);
         },
-        // You can add additional options here if needed
+      
     });
   };
   

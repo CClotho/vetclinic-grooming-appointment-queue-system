@@ -12,6 +12,7 @@ export const useFetchClientsInfo= () => {
         queryFn: api.fetchClientsInfo,
         
         retry: 2,
+        refetchIntervalInBackground: true,
         onSuccess: (data) => {
             console.log("Fetched clients information:", data);
         },

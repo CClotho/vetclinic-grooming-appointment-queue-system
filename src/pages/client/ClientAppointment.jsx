@@ -228,7 +228,7 @@ export const ClientAppointment= () => {
                     </div>
                     ))
                 ) : (
-                    <p className={styles.noAppointments}>There are currently no grooming appointments.</p>
+                    <p className={styles.noAppointments}>You currently have no grooming appointments for today.</p>
                 )
                 }
 
@@ -323,7 +323,7 @@ export const ClientAppointment= () => {
                         </div>
                         ))
                     ) : (
-                        <p className={styles.noAppointments}>There are currently no treatment appointments.</p>
+                        <p className={styles.noAppointments}>You currently have no treatment appointments for today.</p>
                     )
                     }
 

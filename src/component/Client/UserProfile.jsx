@@ -48,7 +48,7 @@ export const UserProfile = () => {
         <div className={styles.clientPets}>
           <h3>Pets ({profile.pets.length})</h3>
           <ul className={styles.petList}>
-            {profile.pets?.map(pet => (
+            {profile.pets && profile.pets?.map(pet => (
               <li key={pet._id} 
                   className={`${styles.petLink} ${selectedPet && selectedPet._id === pet._id ? styles.active : ''}`} 
                   onClick={() => handlePetClick(pet)}>

@@ -28,9 +28,10 @@ const ClientAppointmentForm = () => {
     const { data: treatments, isLoading: isLoadingTreatments } = useFetchTreatments();
     const {data: grooming,  isLoading} = useFetchGroomingServices();
     const {data: petSizes, isLoadingPetSizes } = useFetchPetSizes(); 
-    const {data: pets} = useFetchClientPet();
+    const {data: pets, isLoading: isPetLoading} = useFetchClientPet();
     const [selectedPet, setSelectedPet] = useState('');
 
+    console.log(pets)
 
     const requestAppointment = useRequestAppointment();
   
@@ -72,6 +73,7 @@ const ClientAppointmentForm = () => {
         formik.setFieldValue('pet', petId);
     };
 
+    
    
 
     const handleServiceChange = (serviceId, e) => {
@@ -110,7 +112,7 @@ const ClientAppointmentForm = () => {
                         <label className={styles.label}>Pet:</label>
                         <select name="pet" value={formik.values.pet}  className={styles.select} onChange={handlePetChange}>
                             <option value="">Select a pet</option>
-                            {pets?.map(pet => (
+                            {!isPetLoading && pets?.map(pet => (
                                 <option key={pet._id} value={pet._id}>{pet.pet_name}</option>
                             ))}
                         </select>

@@ -5,6 +5,7 @@ import styles from '../../assets/styles/component.module.css';
 import styled from '../../assets/styles/style.module.css'; 
 import style from '../../assets/styles/component.module.css';
 import { useEditClientInfo } from '../../hooks/clients/useAdminClients';
+import { useNavigate } from "react-router-dom";
 
 const ClientEditSchema = Yup.object({
     first_name: Yup.string().required('Required!'),
@@ -18,7 +19,7 @@ const ClientEditSchema = Yup.object({
 
 const ClientEditForm = ({ initialData, onClose}) => {
     const editClientMutation = useEditClientInfo();
- 
+   // const navigate = useNavigate();
     const formik = useFormik({
         initialValues:{
             _id: initialData._id,
@@ -34,6 +35,7 @@ const ClientEditForm = ({ initialData, onClose}) => {
         
             editClientMutation.mutate(values)
             onClose(false)
+            //navigate("/clients/")
          },
     });
 

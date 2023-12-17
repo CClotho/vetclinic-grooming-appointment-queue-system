@@ -8,9 +8,10 @@ export const useFetchClientPet= () => {
  
 
     return useQuery({
-        queryKey: ['clientInformation'],
+        queryKey: ['clientProfile'],
         queryFn: api.fetchClientPet,
         retry: 2,
+        refetchIntervalInBackground: true,
         onSuccess: () => {
             console.log("Fetched pets");
         },
