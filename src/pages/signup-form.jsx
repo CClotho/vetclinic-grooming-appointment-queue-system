@@ -8,8 +8,7 @@ import styles from  './../assets/styles/sign_up_form.module.css';
 
 const SignupForm = () => {
     const {user, isAuthenticated} = useAuth();
-    // ADD  CONTACT_NUMBER INPUT FOR MONGODB CLIENT SCHEMA atm it was set to not required but should be required
-    //const navigate = useNavigate();
+    const [showPopup, setShowPopup] = useState(false);
 
    
      //Initialize yup Validation object since formik accepts a yupSchema for formik values validation
@@ -49,32 +48,21 @@ const SignupForm = () => {
                 console.log("Status Reponses:", response.status)
                 if (response.status === 200) {
                     console.log(response.data);
+
+                    formik.resetForm();
+
+                    setShowPopup(true);
+    
+                    setTimeout(() => setShowPopup(false), 3000);
                 }
+
+              
             
             } catch (error) {
-                if (error.response && error.response.status === 422 && error.response.data.errors) {
-                    // Access the errors here
-                    const errorsFromBackend = error.response.data.errors;
-                    console.log(errorsFromBackend);
-                    
-                    
-                    // If you want to display specific errors
-                    let formikErrors = {};
-                    errorsFromBackend.forEach(err => {
-                        
-                        if (err.username) {
-                            formikErrors.username = err.username;
-                        }
-                        if (err.email) {
-                            formikErrors.email = err.email;
-                        }
-                        
-                });
-                formik.setErrors(formikErrors);
-                }
-                else {
-                    console.error("There was an error signing you up:", error); 
-                }
+                
+                
+                    console.log(error)
+                     
                
             }
 
@@ -151,6 +139,7 @@ const SignupForm = () => {
             </div>
 
             <button className={styles.signUpBtn}type="submit">Sign Up</button>
+            {showPopup && <div className="popup">Successfully created an appointment!</div>}
         </form>
        </>
     );
