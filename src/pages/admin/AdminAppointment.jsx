@@ -100,10 +100,7 @@ export const AdminAppointment= () => {
                             <span className={styles.detailValue}>{new Date(appointment.date).toLocaleDateString()}</span>
                         </div>
                             
-                        <div className={styles.detailRow}>
-                            <span className={styles.detailLabel}>Doctor:</span>
-                            <span className={styles.detailValue}>{appointment.doctor?.first_name}</span>
-                        </div>
+                     
                             
                         <div className={styles.serviceType}>
                             <span className={styles.detailLabel}>Service Type:</span>
@@ -184,11 +181,7 @@ export const AdminAppointment= () => {
                             <span className={styles.detailLabel}>Date:</span>
                             <span className={styles.detailValue}>{new Date(appointment.date).toDateString()}</span>
                         </div>
-                            
-                        <div className={styles.detailRow}>
-                            <span className={styles.detailLabel}>Doctor:</span>
-                            <span className={styles.detailValue}>{appointment.doctor?.first_name}</span>
-                        </div>
+                        
                             
                         <div className={styles.serviceType}>
                             <span className={styles.detailLabel}>Service Type:</span>
