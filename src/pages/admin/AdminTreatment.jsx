@@ -19,7 +19,7 @@ export const AdminTreatment = () => {
             </button>
 
             <Modal isOpen={isTreatmentModalOpen} onClose={() => setTreatmentModalOpen(false)} title="Treatment Service">
-                <TreatmentForm />
+                <TreatmentForm onClose={setTreatmentModalOpen}/>
             </Modal>
 
             {/* Pass showEdit to TreatmentList to control the display of edit buttons */}

@@ -30,6 +30,7 @@ const ClientAppointmentForm = () => {
     const {data: petSizes, isLoadingPetSizes } = useFetchPetSizes(); 
     const {data: pets, isLoading: isPetLoading} = useFetchClientPet();
     const [selectedPet, setSelectedPet] = useState('');
+    const [showPopup, setShowPopup] = useState(false);
 
     console.log(pets)
 
@@ -59,6 +60,11 @@ const ClientAppointmentForm = () => {
             console.log("Formatted Submission Values", formattedValues);
             // Call the mutation or API function to create the appointment
             requestAppointment.mutate(formattedValues);
+            
+            formik.resetForm();
+            setShowPopup(true);
+
+            setTimeout(() => setShowPopup(false), 3000);
         },
         
     });
@@ -229,6 +235,8 @@ const ClientAppointmentForm = () => {
                     <button type="submit" className={styles.submitButton}>Submit</button>
                 </div>
             </form>
+            {showPopup && <div className="popup">Successfully created an appointment!</div>}
+            
         </div>
        
     );

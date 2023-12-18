@@ -20,7 +20,7 @@ export const AdminGrooming = () => {
             </button>
 
             <Modal isOpen={isGroomingModalOpen} onClose={() => setGroomingModalOpen(false)} title="Grooming Service">
-                <GroomingForm />
+                <GroomingForm onClose={setGroomingModalOpen}/>
             </Modal>
 
             {/* Pass showEdit to TreatmentList to control the display of edit buttons */}

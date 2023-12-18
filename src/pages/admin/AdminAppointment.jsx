@@ -348,7 +348,20 @@ export const AdminAppointment= () => {
 
 
             <div className={styles.appointments}>
+                <div className={styles.searchBarContainer}>
+                <h2> Create an Appointment</h2>
+                <AppointmentForm/>
+
+                <h2> Register Pet</h2>
+                <AddPetForm/>
+
+                </div>
+            </div>
+           
+            <div className={styles.appointments}>
             <div className={styles.searchBarContainer}>
+
+                
                         <input
                             className={styles.searchInput}
                             type="text"
@@ -376,12 +389,7 @@ export const AdminAppointment= () => {
                     </div>
                     <h2>Treatment Appointments</h2>
                 {renderFilteredAppointments(appointments?.treatmentAppointments, treatmentSearchTerm)}
-            <div>
-                
-                
-            
-                
-            </div>
+          
 
             
             <div className={styles.appointments}>
@@ -444,8 +452,7 @@ export const AdminAppointment= () => {
         </div>
 
             
-            <AppointmentForm/>
-            <AddPetForm/>
+           
             <Outlet/>
         </div>
     );

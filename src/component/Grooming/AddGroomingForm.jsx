@@ -10,7 +10,7 @@ import styles from '../../assets/styles/modal.module.css'; // Assuming you have 
     availability: Yup.boolean()
 });
 
-const GroomingForm = () => {
+const GroomingForm = ({onClose}) => {
     const createGroomingMutation = useCreateGrooming();
     const formik = useFormik({
         initialValues: {
@@ -22,6 +22,7 @@ const GroomingForm = () => {
         validationSchema: groomingValidationSchema,
         onSubmit: values => {
             createGroomingMutation.mutate(values); // Use the mutation to create the treatment
+            onClose(false)
         },
     });
 

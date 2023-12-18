@@ -10,7 +10,7 @@ export const treatmentValidationSchema = Yup.object({
     availability: Yup.boolean()
 });
 
-const TreatmentForm = () => {
+const TreatmentForm = ({onClose}) => {
     const createTreatmentMutation = useCreateTreatment();
     const formik = useFormik({
         initialValues: {
@@ -22,6 +22,8 @@ const TreatmentForm = () => {
         validationSchema: treatmentValidationSchema,
         onSubmit: values => {
             createTreatmentMutation.mutate(values); // Use the mutation to create the treatment
+            formik.resetForm();
+            onClose(false)
         },
     });
 

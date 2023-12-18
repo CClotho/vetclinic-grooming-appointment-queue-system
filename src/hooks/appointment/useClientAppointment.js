@@ -58,7 +58,7 @@ export const useFetchClientAppointmentsToday = () => {
  
   return useQuery({
     queryKey: ['AppointmentsToday'],
-    queryFn: api.fetchAppointmentQueueToday,
+    queryFn: api.fetchAppointmentsToday,
     retry: 2,
     refetchOnWindowFocus: true,
     onSuccess: (data) => {

@@ -3,14 +3,14 @@ import { profile } from '../../hooks/users/useProfile';
 import { useAuth } from '../../hooks/AuthContext';
 import ClientAppointmentForm from '../../component/Appointment/ClientAppointmentForm';
 import styles from '../../assets/styles/dashboard.module.css'; // Import CSS module
-import { useFetchClientAppointmentsQueue, useFetchAppointmentHistory } from '../../hooks/appointment/useClientAppointment';
+import { useFetchClientAppointmentsToday, useFetchAppointmentHistory } from '../../hooks/appointment/useClientAppointment';
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 export const ClientAppointment= () => {
  
     const [profileDetails, setProfileDetails] = useState(null);
     const [loading, setLoading] = useState(true);
-    const {data: appointments, isLoadingAppointments }= useFetchClientAppointmentsQueue();
+    const {data: appointments, isLoadingAppointments }= useFetchClientAppointmentsToday();
     const [groomingSearchTerm, setGroomingSearchTerm] = useState('');
     const [treatmentSearchTerm, setTreatmentSearchTerm] = useState('');
 
@@ -21,6 +21,8 @@ export const ClientAppointment= () => {
 
     const {data: appointmentList} = useFetchAppointmentHistory();
     console.log("Appointment List", appointmentList)
+
+    console.log("Client's Appointments", appointments)
 
     useEffect(() => {
         const fetchProfileDetails = async () => {
