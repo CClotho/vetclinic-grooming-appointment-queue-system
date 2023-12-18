@@ -83,25 +83,29 @@ const ClientAppointmentCard = ({ appointment }) => {
     };
 
     return (
-        <div className={appointment.isClientAppointment ? styles.clientAppointmentCard : styles.appointmentCard} >
+        
+            <div className={appointment.isClientAppointment ? styles.clientAppointmentCard : styles.appointmentCard}>
             <div className={styles.appointmentHeader}>
                 <h3>Appointment Details</h3>
             </div>
-
-          
-                    {/* Display details */}
-                    <div className={styles.detailRow}>
-                        <span className={styles.detailLabel}>Client:</span>
-                        <span className={styles.detailValue}>{appointment.client?.first_name} {appointment.client?.last_name}</span>
-                    </div>
-                    <div className={styles.detailRow}>
-                        <span className={styles.detailLabel}>Pet:</span>
-                        <span className={styles.detailValue}>{appointment.pet?.pet_name}</span>
-                    </div>
-                    <div className={styles.detailRow}>
-                        <span className={styles.detailLabel}>Date:</span>
-                        <span className={styles.detailValue}>{new Date(appointment.date).toLocaleDateString()}</span>
-                    </div>
+        
+            {/* Display common details */}
+            <div className={styles.detailRow}>
+                <span className={styles.detailLabel}>Client:</span>
+                <span className={styles.detailValue}>{appointment.client?.first_name} {appointment.client?.last_name}</span>
+            </div>
+            <div className={styles.detailRow}>
+                <span className={styles.detailLabel}>Pet:</span>
+                <span className={styles.detailValue}>{appointment.pet?.pet_name}</span>
+            </div>
+            <div className={styles.detailRow}>
+                <span className={styles.detailLabel}>Date:</span>
+                <span className={styles.detailValue}>{new Date(appointment.date).toLocaleDateString()}</span>
+            </div>
+        
+            {/* Conditional rendering for client appointments */}
+            {appointment.isClientAppointment && (
+                <>
                     <div className={styles.detailRow}>
                         <span className={styles.detailLabel}>Doctor:</span>
                         <span className={styles.detailValue}>{appointment.doctor?.first_name}</span>
@@ -110,43 +114,48 @@ const ClientAppointmentCard = ({ appointment }) => {
                         <span className={styles.detailLabel}>Service Type:</span>
                         <span className={styles.detailValue}>{appointment.service_type}</span>
                     </div>
-               
-                    <div className={styles.detailRow}>
-                        <span className={styles.detailLabel}>Status:</span>
-                        <span className={styles.detailValue}>{appointment.status}</span>
-                    </div>
-                    <div className={styles.detailRow}>
-                        <span className={styles.detailLabel}>Queue Position:</span>
-                        <span className={styles.detailValue}>{appointment.queuePosition}</span>
-                    </div>
-                    <div className={styles.detailRow}>
-                        <span className={styles.detailLabel}>Arrival Time:</span>
-                        <span className={styles.detailValue}>  {new Date(appointment.arrivalTime).toLocaleTimeString('en-US', 
-                        {
-                            hour: 'numeric',
-                            minute: 'numeric',
-                            hour12: true
-                        })}</span>
-                    </div>
-                    <div className={styles.detailRow}>
-                        <span className={styles.detailLabel}>Duration:</span>
-                        <span className={styles.detailValue}>
-                        {appointment.status === 'started'
-                                ? formatDuration(Math.floor(duration))
-                                : formatDuration(Math.floor(appointment.duration))}
-                        </span>
-                    </div>
-
-                    <div className={styles.servicesList}>
-                        <h4 className={styles.detailLabel}>Services:</h4>
-                        {appointment.services?.map((service, index) => (
-                            
-                            <div className={styles.serviceItem} key={service._id || index}>
-                                <div>{service.name} - {service.description}</div>
-                            </div>
-                        ))}
-                    </div>
-        </div>
+                </>
+            )}
+        
+            {/* Display other details */}
+            <div className={styles.detailRow}>
+                <span className={styles.detailLabel}>Status:</span>
+                <span className={styles.detailValue}>{appointment.status}</span>
+            </div>
+            <div className={styles.detailRow}>
+                <span className={styles.detailLabel}>Queue Position:</span>
+                <span className={styles.detailValue}>{appointment.queuePosition}</span>
+            </div>
+            <div className={styles.detailRow}>
+                <span className={styles.detailLabel}>Arrival Time:</span>
+                <span className={styles.detailValue}>{new Date(appointment.arrivalTime).toLocaleTimeString('en-US', {
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    hour12: true
+                })}</span>
+            </div>
+            <div className={styles.detailRow}>
+                <span className={styles.detailLabel}>Duration:</span>
+                <span className={styles.detailValue}>
+                    {appointment.status === 'started'
+                        ? formatDuration(Math.floor(duration))
+                        : formatDuration(Math.floor(appointment.duration))}
+                </span>
+            </div>
+        
+            {/* Conditional rendering for services list */}
+            {appointment.isClientAppointment && (
+                <div className={styles.servicesList}>
+                    <h4 className={styles.detailLabel}>Services:</h4>
+                    {appointment.services?.map((service, index) => (
+                        <div className={styles.serviceItem} key={service._id || index}>
+                            <div>{service.name} - {service.description}</div>
+                        </div>
+                    ))}
+                </div>
+            )}
+    </div>
+    
     );
 };
 
