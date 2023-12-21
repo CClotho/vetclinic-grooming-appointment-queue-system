@@ -142,6 +142,7 @@ export const ClientDashboard= () => {
                         <ClientAppointmentCard
                             key={appointment._id}
                             appointment={appointment} 
+                            index={index}
                         />
                     ))
                 ) : (
@@ -167,10 +168,11 @@ export const ClientDashboard= () => {
                     <h2>Treatment Appointments</h2>
                     {
                     filteredTreatmentAppointments.length > 0 ? (
-                        filteredTreatmentAppointments.map((appointment, index) => (
+                        filteredTreatmentAppointments.map((appointment,index) => (
                               <ClientAppointmentCard
                             key={appointment._id}
                             appointment={appointment} 
+                            index={index}
                         />
                         ))
                     ) : (

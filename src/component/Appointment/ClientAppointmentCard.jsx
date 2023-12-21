@@ -3,10 +3,11 @@ import { useFormik } from 'formik';
 import styles from '../../assets/styles/dashboard.module.css'; // Import CSS module
 import * as Yup from 'yup';
 
-const ClientAppointmentCard = ({ appointment }) => {
+const ClientAppointmentCard = ({ appointment, index }) => {
     const [isEditMode, setIsEditMode] = useState(false);
     const [duration, setDuration] = useState(0);
-   
+    
+    console.log(index)
     useEffect(() => {
         let interval;
         console.log('Appointment Status:', appointment.status);
@@ -90,14 +91,33 @@ const ClientAppointmentCard = ({ appointment }) => {
             </div>
         
             {/* Display common details */}
+
+            
+           
+            {appointment.isClientAppointment ? (
+                <>
             <div className={styles.detailRow}>
                 <span className={styles.detailLabel}>Client:</span>
                 <span className={styles.detailValue}>{appointment.client?.first_name} {appointment.client?.last_name}</span>
+                
             </div>
-            <div className={styles.detailRow}>
+            
+                <div className={styles.detailRow}>
                 <span className={styles.detailLabel}>Pet:</span>
                 <span className={styles.detailValue}>{appointment.pet?.pet_name}</span>
-            </div>
+            </div> 
+            </>) : (
+                <>
+                <div className={styles.detailRow}>
+                    <span className={styles.detailLabel}>Client:</span>
+                    <span className={styles.detailValue}>{index}</span>
+                </div>
+                </>
+            )
+            
+            }
+
+           
             <div className={styles.detailRow}>
                 <span className={styles.detailLabel}>Date:</span>
                 <span className={styles.detailValue}>{new Date(appointment.date).toLocaleDateString()}</span>

@@ -5,7 +5,7 @@ import { signup } from "../hooks/users/useSignup";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../hooks/AuthContext";
 import styles from  './../assets/styles/sign_up_form.module.css';
-
+import { useState } from "react";
 const SignupForm = () => {
     const {user, isAuthenticated} = useAuth();
     const [showPopup, setShowPopup] = useState(false);
@@ -139,7 +139,7 @@ const SignupForm = () => {
             </div>
 
             <button className={styles.signUpBtn}type="submit">Sign Up</button>
-            {showPopup && <div className="popup">Successfully created an appointment!</div>}
+            {showPopup && <div className="popup">Successfully signed up a client!</div>}
         </form>
        </>
     );
